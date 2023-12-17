@@ -10,4 +10,5 @@ export const ButtonText = styled.span`
     font-weight: 400;
     line-height: 20px; /* 66.667% */
     letter-spacing: -0.24px;
+    z-index: 2;
 `;
