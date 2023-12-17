@@ -6,7 +6,8 @@ export const Layout = styled.div`
   display: flex;
   justify-content: center;
   max-height: 932px;
-  overflow-y: hidden;
+  min-height: 800px;
+  //overflow-y: hidden;
   overflow-x: hidden;
 `;
 
