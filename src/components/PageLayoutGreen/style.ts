@@ -7,8 +7,8 @@ export const Layout = styled.div`
   display: flex;
   justify-content: center;
   max-height: 932px;
-  min-height: 800px;
-  //overflow-y: hidden;
+  min-height: 850px;
+  overflow-y: scroll;
   overflow-x: hidden;
   font-family: 'NEXONLv1Gothic';
 `;

@@ -14,4 +14,7 @@ export interface ButtonProps  {
     path?: string;
     position? : string;
   }
-  
+
+export interface ImageButtonProps {
+    src: string;
+}
