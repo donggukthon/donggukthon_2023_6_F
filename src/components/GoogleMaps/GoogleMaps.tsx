@@ -3,8 +3,8 @@ import { GoogleMap } from '@react-google-maps/api';
 import MyMarkerImg from '@/assets/Marker/MyMarker.png';
 import * as S from './style';
 const containerStyle = {
-  width: '390px',
-  height: '820px'
+  width: '430px',
+  height: '932px'
 };
 
 const OPTIONS = {
