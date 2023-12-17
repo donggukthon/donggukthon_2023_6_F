@@ -9,6 +9,8 @@ export const Layout = styled.div`
   min-height: 800px;
   //overflow-y: hidden;
   overflow-x: hidden;
+  font-family: 'NEXONLv1Gothic';
+
 `;
 
 export const Wrapper = styled.div`
@@ -17,5 +19,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 'NEXONLv1Gothic';
+
 `;
 

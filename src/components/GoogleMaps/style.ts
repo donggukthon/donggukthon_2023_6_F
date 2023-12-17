@@ -17,4 +17,5 @@ export const SearchInput = styled.input`
     line-height: 20px; /* 100% */
     letter-spacing: -0.24px;
     padding-left: 87px;
+    font-family: 'NEXONLv1Gothic';
 `;
