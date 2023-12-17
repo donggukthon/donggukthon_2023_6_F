@@ -30,4 +30,5 @@ export const Button = styled.button<ButtonStyleProps>`
   color: ${theme.colors.white};
   cursor: ${(props) => (props.disabled || props.dark ? 'cursor' : 'pointer')};
   filter: ${(props) => (props.disabled || props.dark) && 'brightness(0.7)'};
+  font-family: 'NEXONLv1Gothic';
 `;
