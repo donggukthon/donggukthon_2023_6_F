@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 export const SearchInput = styled.input`
     z-index: 1;
-    max-width: 340px;
-    height: 50px;
+    max-width: 341px;
+    height: 60px;
     width: 100vw;
     margin-left: 0px;
     position: absolute;
-    top: 20px;
+    top: 10px;
     border: none;
     color: #000;
     font-feature-settings: 'clig' off, 'liga' off;
