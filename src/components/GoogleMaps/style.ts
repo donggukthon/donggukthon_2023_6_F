@@ -2,9 +2,9 @@ import styled from 'styled-components';
 
 export const SearchInput = styled.input`
     z-index: 1;
-    max-width: 440px;
+    max-width: 340px;
     height: 50px;
-    min-width: 300px;
+    width: 100vw;
     margin-left: 0px;
     position: absolute;
     top: 20px;
@@ -17,8 +17,4 @@ export const SearchInput = styled.input`
     line-height: 20px; /* 100% */
     letter-spacing: -0.24px;
     padding-left: 87px;
-    @media (min-height: 441px) {
-    max-width: 440px;
-    min-width: 440px;
-    }
 `;
