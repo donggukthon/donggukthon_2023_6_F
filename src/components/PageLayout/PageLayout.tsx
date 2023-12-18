@@ -12,6 +12,7 @@ export default function PageLayout({children}: Props) {
   return (
     <S.Layout>
         <S.Wrapper>
+          <S.NavBar />
         <S.HamburgerButton />
           {children}
         </S.Wrapper>

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
 import MyMarkerImg from '@/assets/Marker/MyMarker.png';
 import * as S from './style';
-
 const containerStyle = {
   width: '430px',
   height: '932px'
