@@ -38,6 +38,11 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
     }
   };
 
+  const handleCloseModal = () => {
+    closeModal(); // 모달 상태를 닫는다
+    navigate('/report/noticeboard'); // /report/noticeboard로 이동한다
+  };
+
   return (
     <>
       {isReportPage && (
@@ -62,7 +67,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
           modalTitle={'신고 접수 완료'} 
           modalText={'깨끗한 환경 만들기 \n 동참해주셔서 감사합니다.'} 
           isOpen={isOpen}
-          onClose={closeModal} // 모달 닫기 함수
+          onClose={handleCloseModal}
         />
       )}
     </>
