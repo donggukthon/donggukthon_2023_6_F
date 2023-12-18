@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import PageLayoutGreen from '@/components/PageLayoutGreen/PageLayoutGreen';
 import PageLayoutGreenBottom from '@/components/PageLayoutGreenBottom/PageLayoutGreenBottom';
-import CheckButtonImg from '@/assets/Button/CheckButton.svg';
+import CheckButtonImg from '@/assets/Button/CheckButton.png';
 import * as S from './style';
 import useInput from '@/hooks/useInput';
 

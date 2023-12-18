@@ -1,5 +1,5 @@
 import {ButtonProps} from '@/interfaces/button';
-import BlackButtonImg from '@/assets/Button/BlackButton.svg';
+import BlackButtonImg from '@/assets/Button/BlackButton.png';
 import Button from '../Button';
 
 type LongButtonProps = Partial<ButtonProps>;
