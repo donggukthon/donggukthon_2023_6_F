@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import * as S from './style';
 
 type Props = {
@@ -7,14 +8,18 @@ type Props = {
 
 
 export default function PageLayoutGreen({children, title}: Props) {
+  const navigate = useNavigate();
 
+  const handleNavigateBack = () => {
+    navigate(-1);
+  };
   return (
     <S.Layout>
         <S.Wrapper>
           <S.NavBar>
             {title}
           </S.NavBar>
-        <S.BackButton />
+        <S.BackButton onClick={() => handleNavigateBack()}/>
           {children}
         </S.Wrapper>
     </S.Layout>
