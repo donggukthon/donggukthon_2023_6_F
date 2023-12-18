@@ -51,8 +51,6 @@ export default function ReportUpload() {
               const isValidPrediction = validPredictions.some(prediction => 
                 predictionResult.includes(prediction.toLowerCase())
               );
-              alert(`${predictionResult}`)
-
               if (!isValidPrediction) {
                 // 일치하는 예측 결과가 없으면 /report로 네비게이트
                 alert('쓰레기통을 다시 촬영해주세요!')
