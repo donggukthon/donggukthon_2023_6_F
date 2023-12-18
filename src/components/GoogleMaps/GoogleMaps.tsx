@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
 import MyMarkerImg from '@/assets/Marker/MyMarker.png';
 import * as S from './style';
+import useModal from '@/hooks/useModal';
+import TrashCanModal from '@/components/Modal/TrashCanModal/TrashCanModal';
+
 const containerStyle = {
   width: '430px',
   height: '932px'
@@ -23,6 +26,7 @@ function GoogleMaps() {
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef(null);
+  const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
 
   useEffect(() => {
     if (!map) return;
@@ -50,7 +54,6 @@ function GoogleMaps() {
     });
   }, [map]);
   
-  
   function handleSearchChange(e) {
     setSearchQuery(e.target.value);
   }
@@ -73,7 +76,6 @@ function GoogleMaps() {
     }
   }, [map]); // map이 로드됐을 때만 실행
   
-
   useEffect(() => {
     if (center && map) {
       // 기존에 마커가 있다면 제거
@@ -97,17 +99,23 @@ function GoogleMaps() {
         { lat: 37.5609867, lng: 126.993575 },
         { lat: 37.5599867, lng: 126.992575 }
       ];
-  
       const markers = hardcodedMarkers.map(location => {
-        return new window.google.maps.Marker({
+        const marker = new window.google.maps.Marker({
           position: location,
           map: map,
         });
+
+        // 마커 클릭 이벤트 리스너
+        marker.addListener('click', () => {
+          openModal(); // isTrashUploadPage가 true일 때 모달 열기
+        });
+
+        return marker;
       });
-  
       return () => {
         markers.forEach(marker => marker.setMap(null));
       };
+      
     }
   }, [map]);
 
@@ -145,6 +153,14 @@ function GoogleMaps() {
         options={OPTIONS}
       >
       </GoogleMap>
+
+      {isOpen && (
+        <TrashCanModal 
+          modalTitle={'서울특별시 중구 필동로 1길 30'} //TODO : 서버로 받은 데이터 넣어야함
+          isOpen={isOpen}
+          onClose={closeModal}
+        />
+      )}
     </>
   );
 }
