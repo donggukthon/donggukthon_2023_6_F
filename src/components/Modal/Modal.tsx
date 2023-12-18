@@ -1,5 +1,5 @@
 import React from 'react';
-import {S} from './style';
+import * as S from './style'
 import { ModalProps } from '@/interfaces/modal';
 
 const Modal: React.FC<ModalProps> = ({

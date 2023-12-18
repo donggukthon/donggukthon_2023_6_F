@@ -3,18 +3,19 @@ import SmallModalImg from '@/assets/Modal/SmallModal.png';
 import MediumModalImg from '@/assets/Modal/MediumModal.png';
 import { ModalContentProps, ModalWrapperProps } from '@/interfaces/modal';
 import theme from '@/theme';
-const fadeIn = keyframes`
+
+export const fadeIn = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
 `;
 
-const fadeOut = keyframes`
+export const fadeOut = keyframes`
   from { opacity: 1; }
   to { opacity: 0; }
 `;
 
 // ModalWrapper 컴포넌트에 ModalWrapperProps 타입을 적용하여 show 프로퍼티를 사용할 수 있도록 했습니다.
-const ModalWrapper = styled.div<ModalWrapperProps>`
+export const ModalWrapper = styled.div<ModalWrapperProps>`
   position: fixed;
   top: 0;
   left: 0;
@@ -61,7 +62,7 @@ const getModalSize = (
   }
 };
 
-const ModalContent = styled.div<ModalContentProps>`
+export const ModalContent = styled.div<ModalContentProps>`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -86,13 +87,13 @@ const ModalContent = styled.div<ModalContentProps>`
   overflow-y: auto;
 `;
 
-const ModalInnerContent = styled.div`
+export const ModalInnerContent = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
 `;
 
-const ModalTitle = styled.div`
+export const ModalTitle = styled.div`
   position: absolute;
   left: 50%;
   transform: translate(-50%, 50%);
@@ -112,12 +113,3 @@ export const ModalInnerWrapper = styled.div`
   justify-content: center;
   margin-top: 68px;
 `;
-
-export const S = {
-  fadeIn,
-  fadeOut,
-  ModalWrapper,
-  ModalContent,
-  ModalInnerContent,
-  ModalTitle,
-};
