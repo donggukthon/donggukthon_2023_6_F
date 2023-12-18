@@ -3,6 +3,8 @@ import ModalButton from '@/components/Button/ModalButton/ModalButton';
 import * as S from './style';
 import useModal from '@/hooks/useModal';
 import SmallModal from '../SmallModal/SmallModal';
+import { useMutation } from '@tanstack/react-query';
+import { declarationsNoTrashCan } from '@/apis/trashCan';
 
 export default function TrashCanModal({onClose, isOpen, modalTitle}) {
   const { isOpen : openSucessModal, openModal, closeModal } = useModal(); // useModal 훅 사용

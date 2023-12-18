@@ -6,7 +6,6 @@ import * as S from './style';
 import PageLayout from '@/components/PageLayout/PageLayout';
 import { useNavigate } from 'react-router-dom';
 function Home() {
-
   const navigate = useNavigate();
 
   const handleNavigateReport = () => {

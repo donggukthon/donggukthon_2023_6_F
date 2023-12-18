@@ -4,6 +4,8 @@ import MyMarkerImg from '@/assets/Marker/MyMarker.png';
 import * as S from './style';
 import useModal from '@/hooks/useModal';
 import TrashCanModal from '@/components/Modal/TrashCanModal/TrashCanModal';
+import { userLocationInfoState } from '@/atoms/user';
+import { useRecoilState } from 'recoil';
 
 const containerStyle = {
   width: '430px',
@@ -27,7 +29,7 @@ function GoogleMaps() {
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef(null);
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
-  const [address, setAddress] = useState(''); // 주소 상태
+  const [userLocationInfo, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
 
   // Geocoder 객체 생성
   const geocoder = useRef(new window.google.maps.Geocoder()).current;
@@ -37,7 +39,11 @@ function GoogleMaps() {
     geocoder.geocode({ location }, (results, status) => {
       if (status === 'OK') {
         if (results[0]) {
-          setAddress(results[0].formatted_address); // 첫 번째 결과의 주소 설정
+          setUserLocationInfo({
+            address: results[0].formatted_address,
+            latitude: location.lat,
+            longitude: location.lng
+          });
           openModal(); // 모달 열기
         } else {
           console.log('No results found');
@@ -176,7 +182,7 @@ function GoogleMaps() {
 
       {isOpen && (
         <TrashCanModal 
-          modalTitle={'서울특별시 중구 필동로 1길 30'} //TODO : 서버로 받은 데이터 넣어야함
+          modalTitle={'서울특별시 중구 필동로 1길 30'} //TODO: 서버로 받은 데이터 넣어야함
           isOpen={isOpen}
           onClose={closeModal}
         />
