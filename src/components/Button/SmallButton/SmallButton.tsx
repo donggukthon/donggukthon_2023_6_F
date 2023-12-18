@@ -1,5 +1,5 @@
 import {ButtonProps} from '@/interfaces/button';
-import SmallButtonImg from '@/assets/Button/SmallButton.svg';
+import SmallButtonImg from '@/assets/Button/SmallButton.png';
 import Button from '../Button';
 
 type SmallButtonProps = Partial<ButtonProps>;

@@ -12,7 +12,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
   const inputRef = useRef(null);
 
   const handleNavigate = () => {
-    if (buttonImgSrc === "@/assets/Button/CameraButton.svg") {
+    if (buttonImgSrc === "@/assets/Button/CameraButton.png") {
       // 카메라 버튼일 경우
       inputRef.current.click(); // input 태그를 클릭하도록 합니다.
     } else {
@@ -32,7 +32,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
   return (
     <>
-      {buttonImgSrc === "@/assets/Button/CameraButton.svg" && (
+      {buttonImgSrc === "@/assets/Button/CameraButton.png" && (
         <input 
           type="file" 
           accept="image/*" 

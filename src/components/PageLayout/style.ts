@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import HamburgerButtonImg from '@/assets/Button/HamburgerButton.svg';
+import HamburgerButtonImg from '@/assets/Button/HamburgerButton.png';
 
 export const Layout = styled.div`
   width: 100vw;
