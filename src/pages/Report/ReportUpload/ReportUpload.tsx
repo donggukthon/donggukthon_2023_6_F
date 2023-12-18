@@ -51,6 +51,10 @@ export default function ReportUpload() {
           setPrediction('분류 오류가 발생했습니다.');
         }
       };
+      imgElement.onerror = (error) => {
+        console.error('이미지 로드 실패:', error);
+        alert('이미지 로드 실패');
+      };
     };
 
     if (imageUrl) {
