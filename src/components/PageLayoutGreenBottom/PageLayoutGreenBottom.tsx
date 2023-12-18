@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import * as S from './style';
 
 type Props = {
@@ -9,14 +9,18 @@ type Props = {
 
 export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
   const navigate = useNavigate();
+  const location = useLocation();
   const inputRef = useRef(null);
 
+  // 현재 경로가 '/report'인지 확인
+  const isReportPage = location.pathname === '/report';
+
   const handleNavigate = () => {
-    if (buttonImgSrc === "@/assets/Button/CameraButton.png") {
-      // 카메라 버튼일 경우
+    if (isReportPage) {
+      // '/report' 페이지에서 카메라 버튼일 경우
       inputRef.current.click(); // input 태그를 클릭하도록 합니다.
     } else {
-      // 다른 버튼일 경우
+      // 다른 페이지에서 다른 버튼일 경우
       navigate(route);
     }
   };
@@ -32,7 +36,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
   return (
     <>
-      {buttonImgSrc === "@/assets/Button/CameraButton.png" && (
+      {isReportPage && (
         <input 
           type="file" 
           accept="image/*" 
