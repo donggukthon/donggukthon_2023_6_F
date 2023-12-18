@@ -18,7 +18,7 @@ export default function ReportUpload() {
     if (imageFile) {
       const newImageUrl = URL.createObjectURL(imageFile);
       setImageUrl(newImageUrl);
-
+      
       // URL 사용 후 해제
       return () => URL.revokeObjectURL(newImageUrl);
     }
@@ -33,12 +33,14 @@ export default function ReportUpload() {
         try {
           const result = await net.classify(imgElement);
           if (result && result.length > 0) {
+            alert('분석을 완료했습니다.');
             setPrediction(result[0].className);
           } else {
+            alert('분석 결과가 없습니다.');
             setPrediction('분석 결과가 없습니다.');
           }
         } catch (error) {
-          console.error('분류 오류:', error);
+          alert('분류 오류');
           setPrediction('분류 오류가 발생했습니다.');
         }
       };
@@ -55,7 +57,7 @@ export default function ReportUpload() {
         <S.ImagePreview imageUrl={imageUrl} />
       )}
       <S.PredictionWrapper>
-        {prediction && <S.PredictionText>쓰레기통 분석 결과: {prediction}</S.PredictionText>}
+        {<S.PredictionText>쓰레기통 분석 결과: {prediction}</S.PredictionText>}
       </S.PredictionWrapper>
       <S.ContentsArea
         placeholder="쓰레기통 위치에 대한 간단한 설명."
