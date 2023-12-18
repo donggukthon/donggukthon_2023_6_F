@@ -27,6 +27,7 @@ const ModalWrapper = styled.div<ModalWrapperProps>`
       ? 'block'
       : 'none'};
   z-index: 999;
+  background-color: rgba(228, 240, 213, 0.5);
 `;
 
 const getModalBackgroundImage = (
