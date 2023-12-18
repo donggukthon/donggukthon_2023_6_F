@@ -35,7 +35,10 @@ export default function ReportUpload() {
       alert(`imgElement.src : ${imgElement.src}`)
       imgElement.onload = async () => {
         try {
+          alert('이미지 로딩 완료');
           const result = await net.classify(imgElement);
+          alert(`분류 결과 : ${result}`)
+
           if (result && result.length > 0) {
             alert('분석을 완료했습니다.');
             setPrediction(result[0].className);
