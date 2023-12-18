@@ -40,7 +40,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
   const handleCloseModal = () => {
     closeModal(); // 모달 상태를 닫는다
-    navigate('/report/noticeboard'); // /report/noticeboard로 이동한다
+    navigate('/home');
   };
 
   return (
