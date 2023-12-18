@@ -25,6 +25,8 @@ export default function ReportUpload() {
   }, [imageFile]);
 
   useEffect(() => {
+    alert(`imageUrl1 : ${imageUrl}`)
+
     const classifyImage = async (imageSrc: string) => {
       const net = await mobilenet.load();
       const imgElement = new Image();
@@ -49,8 +51,11 @@ export default function ReportUpload() {
     };
 
     if (imageUrl) {
+      alert(`imageUrl2 : ${imageUrl}`)
       classifyImage(imageUrl);
+
     }
+    alert(`imageUrl3 : ${imageUrl}`)
   }, [imageUrl]);
 
   return (
