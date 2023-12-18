@@ -47,10 +47,16 @@ export default function ReportUpload() {
             //alert(`분류 결과 : ${result}`)
             if (result && result.length > 0) {
               //alert('분석을 완료했습니다.');
-              setPrediction(result[0].className);
-              if (result[0].className && !validPredictions.includes(prediction.toLowerCase())) {
-                alert(`${result[0].className}`)
-                alert('쓰레기통을 다시 촬영해주세요!')
+              const predictionResult = result[0].className;
+              setPrediction(predictionResult);
+        
+              // validPredictions 배열 내의 요소 중 하나라도 predictionResult에 포함되어 있는지 확인
+              const isValidPrediction = validPredictions.some(prediction => 
+                predictionResult.includes(prediction.toLowerCase())
+              );
+        
+              if (!isValidPrediction) {
+                // 일치하는 예측 결과가 없으면 /report로 네비게이트
                 navgate('/report');
               }
             } else {
@@ -73,7 +79,7 @@ export default function ReportUpload() {
     if (imageUrl) {
       classifyImage(imageUrl);
     }
-  }, [imageUrl]);
+  }, [imageUrl, navgate]);
 
   return (
     <PageLayoutGreen title={"제보하기"}>
