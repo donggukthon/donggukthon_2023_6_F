@@ -51,7 +51,7 @@ export default function ReportUpload() {
     if (imageUrl) {
       classifyImage(imageUrl);
     }
-  }, []);
+  }, [imageUrl]);
 
   return (
     <PageLayoutGreen title={"제보하기"}>
