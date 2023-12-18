@@ -28,7 +28,9 @@ export default function ReportUpload() {
     alert(`imageUrl1 : ${imageUrl}`)
 
     const classifyImage = async (imageSrc: string) => {
+      alert(`classifyImage 함수 시작`)
       const net = await mobilenet.load();
+      alert(`모델 로드 완료`)
       const imgElement = new Image();
       imgElement.src = imageSrc;
       alert(`imageSrc : ${imageSrc}`)
