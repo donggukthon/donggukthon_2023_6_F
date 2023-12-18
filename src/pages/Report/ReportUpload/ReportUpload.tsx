@@ -6,6 +6,7 @@ import CheckButtonImg from '@/assets/Button/CheckButton.png';
 import * as S from './style';
 import useInput from '@/hooks/useInput';
 import * as mobilenet from '@tensorflow-models/mobilenet';
+import * as tf from '@tensorflow/tfjs';
 
 export default function ReportUpload() {
   const location = useLocation();
@@ -30,6 +31,10 @@ export default function ReportUpload() {
     const classifyImage = async (imageSrc: string) => {
       alert(`classifyImage 함수 시작`)
       try {
+        // TensorFlow.js의 백엔드를 설정
+        await tf.setBackend('webgl');
+        alert('백엔드 설정 완료');
+
         const net = await mobilenet.load();
         alert(`모델 로드 완료`)
         const imgElement = new Image();
