@@ -14,7 +14,6 @@ export const ImagePreview = styled.div<ImagePreviewProps>`
   margin-left: 2.5px;
   margin-top: 146px;
   position: absolute;
-  background-color: black;
 `;
 
 export const PredictionWrapper = styled.div`

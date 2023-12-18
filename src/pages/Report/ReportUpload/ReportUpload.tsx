@@ -18,8 +18,6 @@ export default function ReportUpload() {
     if (imageFile) {
       const newImageUrl = URL.createObjectURL(imageFile);
       setImageUrl(newImageUrl);
-
-      // URL 사용 후 해제
       return () => URL.revokeObjectURL(newImageUrl);
     }
   }, [imageFile]);
@@ -27,11 +25,20 @@ export default function ReportUpload() {
   useEffect(() => {
     const classifyImage = async (imageSrc) => {
       const net = await mobilenet.load();
-      const imgElement = document.createElement('img');
+      const imgElement = new Image();
       imgElement.src = imageSrc;
       imgElement.onload = async () => {
-        const result = await net.classify(imgElement);
-        setPrediction(result[0].className);
+        try {
+          const result = await net.classify(imgElement);
+          if (result && result.length > 0) {
+            setPrediction(result[0].className);
+          } else {
+            setPrediction('분석 결과가 없습니다.');
+          }
+        } catch (error) {
+          console.error('분류 오류:', error);
+          setPrediction('분류 오류가 발생했습니다.');
+        }
       };
     };
 
@@ -42,11 +49,11 @@ export default function ReportUpload() {
 
   return (
     <PageLayoutGreen title={"제보하기"}>
-      { (
+      {imageUrl && (
         <S.ImagePreview imageUrl={imageUrl} />
       )}
       <S.PredictionWrapper>
-        {<S.PredictionText>쓰레기통 분석 결과 : {prediction}</S.PredictionText>}
+        {prediction && <S.PredictionText>쓰레기통 분석 결과: {prediction}</S.PredictionText>}
       </S.PredictionWrapper>
       <S.ContentsArea
         placeholder="쓰레기통 위치에 대한 간단한 설명."
