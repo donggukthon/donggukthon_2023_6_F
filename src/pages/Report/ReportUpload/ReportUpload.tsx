@@ -10,7 +10,8 @@ import * as tf from '@tensorflow/tfjs';
 
 const validPredictions = [
   'ashcan', 'trash can', 'garbage can', 'wastebin', 'ash bin',
-  'ash-bin', 'ashbin', 'dustbin', 'trash barrel', 'trash bin'
+  'ash-bin', 'ashbin', 'dustbin', 'trash barrel', 'trash bin',
+  'trash-can', 'garbage-can'
 ];
 
 export default function ReportUpload() {
@@ -31,7 +32,6 @@ export default function ReportUpload() {
 
   useEffect(() => {
     const classifyImage = async (imageSrc: string) => {
-      alert(`classifyImage 함수 시작`)
       try {
         // TensorFlow.js의 백엔드를 설정
         await tf.setBackend('webgl');
@@ -73,6 +73,7 @@ export default function ReportUpload() {
     // Prediction 값에 따라 후처리
     useEffect(() => {
       if (prediction && !validPredictions.includes(prediction.toLowerCase())) {
+        alert(``)
         alert('쓰레기통을 다시 촬영해주세요!')
         navgate('/report');
       }
