@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import BackButtonImg from '@/assets/Button/BackButton.svg';
+import BackButtonImg from '../../assets/Button/BackButton.svg';
 
 export const Layout = styled.div`
   width: 100vw;
