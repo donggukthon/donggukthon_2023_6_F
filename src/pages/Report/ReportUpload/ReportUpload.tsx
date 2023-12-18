@@ -42,12 +42,12 @@ export default function ReportUpload() {
 
   return (
     <PageLayoutGreen title={"제보하기"}>
-      {imageUrl && (
+      { (
         <S.ImagePreview imageUrl={imageUrl} />
       )}
-      <div>
-        {prediction && <p>Prediction: {prediction}</p>}
-      </div>
+      <S.PredictionWrapper>
+        {<S.PredictionText>쓰레기통 분석 결과 : {prediction}</S.PredictionText>}
+      </S.PredictionWrapper>
       <S.ContentsArea
         placeholder="쓰레기통 위치에 대한 간단한 설명."
         value={content.value}

@@ -12,8 +12,24 @@ export const ImagePreview = styled.div<ImagePreviewProps>`
   background-image: url(${props => props.imageUrl});
   margin-top: 2.5px;
   margin-left: 2.5px;
-  margin-top: 166px;
+  margin-top: 146px;
   position: absolute;
+  background-color: black;
+`;
+
+export const PredictionWrapper = styled.div`
+  margin-top: 456px;
+  position: absolute;
+  z-index: 2;
+  width: 350px;
+`;
+
+export const PredictionText = styled.p`
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  color: ${theme.colors.black};
+  text-align: center;
 `;
 
 export const ContentsArea = styled.textarea`
@@ -37,6 +53,6 @@ export const ContentsArea = styled.textarea`
         color: ${theme.colors.black};
         font-size: 20px;
     }
-    margin-top: 482px;
+    margin-top: 522px;
     font-family: inherit;
 `;
