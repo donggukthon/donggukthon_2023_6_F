@@ -27,6 +27,26 @@ function GoogleMaps() {
   const [searchQuery, setSearchQuery] = useState('');
   const inputRef = useRef(null);
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
+  const [address, setAddress] = useState(''); // 주소 상태
+
+  // Geocoder 객체 생성
+  const geocoder = useRef(new window.google.maps.Geocoder()).current;
+
+  // 주소 가져오는 함수
+  const getAddress = (location) => {
+    geocoder.geocode({ location }, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          setAddress(results[0].formatted_address); // 첫 번째 결과의 주소 설정
+          openModal(); // 모달 열기
+        } else {
+          console.log('No results found');
+        }
+      } else {
+        console.log('Geocoder failed due to: ' + status);
+      }
+    });
+  };
 
   useEffect(() => {
     if (!map) return;
@@ -84,7 +104,7 @@ function GoogleMaps() {
         map: map,
         icon: markerIcon
       });
-  
+      getAddress(location); // 사용자 주소 가져오기
       return () => {
         marker.setMap(null);
       };
