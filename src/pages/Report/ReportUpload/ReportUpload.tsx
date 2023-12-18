@@ -47,7 +47,7 @@ export default function ReportUpload() {
             //alert(`분류 결과 : ${result}`)
             if (result && result.length > 0) {
               //alert('분석을 완료했습니다.');
-              const predictionResult = result[0].className.toLowerCase();
+              const predictionResult = result[0].className;
               setPrediction(predictionResult);
         
               // validPredictions 배열 내의 요소 중 하나라도 predictionResult에 포함되어 있는지 확인
