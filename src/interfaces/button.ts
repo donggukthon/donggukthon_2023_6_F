@@ -18,3 +18,11 @@ export interface ButtonProps  {
 export interface ImageButtonProps {
     src: string;
 }
+
+export interface ModalOKButtonProps {
+  buttonName: string;
+}
+
+export interface ModalButtonProps {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+}
