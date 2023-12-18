@@ -35,3 +35,7 @@ export const ImageButton = styled.button<ImageButtonProps>`
   background-color: transparent;
   margin-top: 29px;
 `;
+
+export const HiddenInput = styled.input`
+  display: none;
+`;
