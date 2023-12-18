@@ -18,6 +18,8 @@ export default function ReportUpload() {
     if (imageFile) {
       const newImageUrl = URL.createObjectURL(imageFile);
       setImageUrl(newImageUrl);
+
+      // URL 사용 후 해제
       return () => URL.revokeObjectURL(newImageUrl);
     }
   }, [imageFile]);
