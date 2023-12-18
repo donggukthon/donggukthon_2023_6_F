@@ -10,8 +10,8 @@ import * as mobilenet from '@tensorflow-models/mobilenet';
 export default function ReportUpload() {
   const location = useLocation();
   const imageFile = location.state?.image;
-  const [imageUrl, setImageUrl] = useState(null);
-  const [prediction, setPrediction] = useState('');
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [prediction, setPrediction] = useState<string | null>(null);
   const content = useInput<HTMLTextAreaElement>();
 
   useEffect(() => {
@@ -25,10 +25,12 @@ export default function ReportUpload() {
   }, [imageFile]);
 
   useEffect(() => {
-    const classifyImage = async (imageSrc) => {
+    const classifyImage = async (imageSrc: string) => {
       const net = await mobilenet.load();
       const imgElement = new Image();
       imgElement.src = imageSrc;
+      alert(`imageSrc : ${imageSrc}`)
+      alert(`imgElement.src : ${imgElement.src}`)
       imgElement.onload = async () => {
         try {
           const result = await net.classify(imgElement);
@@ -49,7 +51,7 @@ export default function ReportUpload() {
     if (imageUrl) {
       classifyImage(imageUrl);
     }
-  }, [imageUrl]);
+  }, []);
 
   return (
     <PageLayoutGreen title={"제보하기"}>
