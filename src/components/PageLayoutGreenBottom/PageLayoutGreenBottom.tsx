@@ -37,14 +37,13 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
   return (
     <>
       {isReportPage && (
-        <input 
-          type="file" 
-          accept="image/*" 
-          capture="environment" 
-          ref={inputRef} 
-          style={{ display: 'none' }} 
-          onChange={handleCapture}
-        />
+        <S.HiddenInput 
+        type="file" 
+        accept="image/*" 
+        capture="environment" 
+        ref={inputRef} 
+        onChange={handleCapture}
+      />
       )}
       <S.Wrapper>
         <S.BottomNavBar>
