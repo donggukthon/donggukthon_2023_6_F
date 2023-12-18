@@ -29,34 +29,38 @@ export default function ReportUpload() {
 
     const classifyImage = async (imageSrc: string) => {
       alert(`classifyImage 함수 시작`)
-      const net = await mobilenet.load();
-      alert(`모델 로드 완료`)
-      const imgElement = new Image();
-      imgElement.src = imageSrc;
-      alert(`imageSrc : ${imageSrc}`)
-      alert(`imgElement.src : ${imgElement.src}`)
-      imgElement.onload = async () => {
-        try {
-          alert('이미지 로딩 완료');
-          const result = await net.classify(imgElement);
-          alert(`분류 결과 : ${result}`)
+      try {
+        const net = await mobilenet.load();
+        alert(`모델 로드 완료`)
+        const imgElement = new Image();
+        imgElement.src = imageSrc;
+        alert(`imageSrc : ${imageSrc}`)
+        alert(`imgElement.src : ${imgElement.src}`)
+        imgElement.onload = async () => {
+          try {
+            alert('이미지 로딩 완료');
+            const result = await net.classify(imgElement);
+            alert(`분류 결과 : ${result}`)
 
-          if (result && result.length > 0) {
-            alert('분석을 완료했습니다.');
-            setPrediction(result[0].className);
-          } else {
-            alert('분석 결과가 없습니다.');
-            setPrediction('분석 결과가 없습니다.');
+            if (result && result.length > 0) {
+              alert('분석을 완료했습니다.');
+              setPrediction(result[0].className);
+            } else {
+              alert('분석 결과가 없습니다.');
+              setPrediction('분석 결과가 없습니다.');
+            }
+          } catch (error) {
+            alert('분류 오류');
+            setPrediction('분류 오류가 발생했습니다.');
           }
-        } catch (error) {
-          alert('분류 오류');
-          setPrediction('분류 오류가 발생했습니다.');
-        }
-      };
-      imgElement.onerror = (error) => {
-        console.error('이미지 로드 실패:', error);
-        alert('이미지 로드 실패');
-      };
+        };
+        imgElement.onerror = (error) => {
+          alert(`이미지 로드 실패: ${error}`);
+        };
+      } catch (error) {
+        alert(`모델 로딩 오류: ${error}`);
+      }
+      
     };
 
     if (imageUrl) {
