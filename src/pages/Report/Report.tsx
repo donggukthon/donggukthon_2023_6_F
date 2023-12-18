@@ -2,7 +2,7 @@ import React from 'react'
 import PageLayoutGreen from '@/components/PageLayoutGreen/PageLayoutGreen'
 import * as S from './style'
 import PageLayoutGreenBottom from '@/components/PageLayoutGreenBottom/PageLayoutGreenBottom'
-import CameraButtonImg from '../../assets/Button/CameraButton.png'
+import CameraButtonImg from '@/assets/Button/CameraButton.png'
 
 export default function Report() {
   return (
