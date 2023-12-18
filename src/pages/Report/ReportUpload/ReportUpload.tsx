@@ -19,7 +19,7 @@ export default function ReportUpload() {
         <S.ImagePreview imageUrl={URL.createObjectURL(image)} />
       )}
       <S.ContentsArea
-        placeholder="신고 내용을 작성해주세요."
+        placeholder="쓰레기통 위치에 대한 간단한 설명."
         value={content.value}
         onChange={content.handleChange}
       />
