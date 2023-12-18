@@ -19,7 +19,6 @@ export default function ReportUpload() {
   const navgate = useNavigate();
   const imageFile = location.state?.image;
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [prediction, setPrediction] = useState<string | null>(null);
   const content = useInput<HTMLTextAreaElement>();
 
   useEffect(() => {
@@ -47,9 +46,7 @@ export default function ReportUpload() {
             //alert(`분류 결과 : ${result}`)
             if (result && result.length > 0) {
               //alert('분석을 완료했습니다.');
-              const predictionResult = result[0].className;
-              setPrediction(predictionResult);
-        
+              const predictionResult = result[0].className;        
               // validPredictions 배열 내의 요소 중 하나라도 predictionResult에 포함되어 있는지 확인
               const isValidPrediction = validPredictions.some(prediction => 
                 predictionResult.includes(prediction.toLowerCase())
@@ -63,11 +60,9 @@ export default function ReportUpload() {
               }
             } else {
               //alert('분석 결과가 없습니다.');
-              setPrediction('분석 결과가 없습니다.');
             }
           } catch (error) {
             //alert('분류 오류');
-            setPrediction('분류 오류가 발생했습니다.');
           }
         };
         imgElement.onerror = (error) => {
@@ -77,7 +72,6 @@ export default function ReportUpload() {
         //alert(`모델 로딩 오류: ${error}`);
       }
     };
-
     if (imageUrl) {
       classifyImage(imageUrl);
     }
@@ -89,11 +83,6 @@ export default function ReportUpload() {
         <S.ImagePreview imageUrl={imageUrl} />
       )}
       <S.PredictionWrapper>
-        {prediction && validPredictions.includes(prediction.toLowerCase()) ? (
-          <S.PredictionText>쓰레기통이 맞습니다!</S.PredictionText>
-        ) : (
-          <S.PredictionText>분석 중...</S.PredictionText>
-        )}
       </S.PredictionWrapper>
       <S.ContentsArea
         placeholder="쓰레기통 위치에 대한 간단한 설명."
