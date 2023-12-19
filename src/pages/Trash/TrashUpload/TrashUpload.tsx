@@ -10,13 +10,13 @@ import useInput from '@/hooks/useInput';
 
 export default function TrashUpload() {
   const location = useLocation();
-  const image = location.state?.image; // 이전 페이지에서 넘겨받은 이미지 파일
+  const imageFile = location.state?.image;
   const content = useInput<HTMLTextAreaElement>();
 
   return (
     <PageLayoutGreen title={"신고하기"}>
-      {image && (
-        <S.ImagePreview imageUrl={URL.createObjectURL(image)} />
+      {imageFile && (
+        <S.ImagePreview imageUrl={URL.createObjectURL(imageFile)} />
       )}
       <S.ContentsArea
         placeholder="신고 내용을 작성해주세요."

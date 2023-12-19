@@ -26,6 +26,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
 
   const isReportPage = location.pathname === '/report';
+  const isTrashPage = location.pathname === '/trash' || '/Trash';
   const isReportUploadPage = location.pathname ==='/report/upload'
   const isTrashUploadPage = location.pathname === '/trash/upload';
 
@@ -48,8 +49,8 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
 
   const handleNavigate = () => {
-    if (isReportPage) {
-      inputRef.current.click();
+    if (isReportPage || isTrashPage) {
+        inputRef.current.click();
     } else if (isTrashUploadPage) {
       openModal(); // isTrashUploadPage가 true일 때 모달 열기
     } else if (isReportUploadPage) {
@@ -65,7 +66,12 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
     if (file) {
       // 사진 처리 및 이동
       setImageFile(file); // setImageFile은 Recoil atom을 업데이트하는 함수
-      navigate('/report/upload', { state: { image: file } });
+      if(isReportPage) {
+        navigate('/report/upload', { state: { image: file } });
+      } else if(isTrashPage) {
+        navigate('/trash/upload', { state: { image: file } });
+      }
+      
     }
   };
 
@@ -76,7 +82,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
   return (
     <>
-      {isReportPage && (
+      {(isReportPage || isTrashPage )&& (
         <S.HiddenInput 
         type="file" 
         accept="image/*" 
