@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
 import MyMarkerImg from '@/assets/Marker/MyMarker.png';
 import * as S from './style';
@@ -36,24 +36,25 @@ function GoogleMaps() {
   const geocoder = useRef(new window.google.maps.Geocoder()).current;
 
   // 주소 가져오는 함수
-  const getAddress = (location) => {
-    geocoder.geocode({ location }, (results, status) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          setUserLocationInfo({
-            address: results[0].formatted_address,
-            latitude: location.lat,
-            longitude: location.lng
-          });
-          openModal(); // 모달 열기
-        } else {
-          console.log('No results found');
-        }
+  const getAddress = useCallback((location) => {
+  geocoder.geocode({ location }, (results, status) => {
+    if (status === 'OK') {
+      if (results[0]) {
+        setUserLocationInfo({
+          address: results[0].formatted_address,
+          latitude: location.lat,
+          longitude: location.lng
+        });
+        openModal(); // 모달 열기
       } else {
-        console.log('Geocoder failed due to: ' + status);
+        console.log('No results found');
       }
-    });
-  };
+    } else {
+      console.log('Geocoder failed due to: ' + status);
+    }
+  });
+}, [setUserLocationInfo, openModal]); // 의존성 배열에 setUserLocationInfo와 openModal 추가
+
 
   useEffect(() => {
     if (!map) return;
