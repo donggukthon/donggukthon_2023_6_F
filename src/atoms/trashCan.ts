@@ -1,6 +1,5 @@
 import { ITrashCansLocation } from '@/interfaces/trashCans';
 import { atom } from 'recoil';
-import { ReportContentProps } from '@/interfaces/reportUpload';
 
 export const trashCansState = atom<ITrashCansLocation>({
   key: 'trashCansState',

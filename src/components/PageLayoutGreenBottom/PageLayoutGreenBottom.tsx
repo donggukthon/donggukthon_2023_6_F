@@ -37,9 +37,8 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
       longitude: userLocationInfo.longitude,
       information: content
     }),
-    onSuccess: (data) => {
-      navigate('report/upload/success');
-
+    onSuccess: () => {
+      navigate('success');
     },
     onError: (error) => {
       console.log('Error occurred:', error);
@@ -54,7 +53,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
     } else if (isTrashUploadPage) {
       openModal(); // isTrashUploadPage가 true일 때 모달 열기
     } else if (isReportUploadPage) {
-      //mutate();
+      mutate();
     } else {
       navigate(route);
     }
