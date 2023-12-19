@@ -5,7 +5,8 @@ import * as S from './style';
 import useModal from '@/hooks/useModal';
 import TrashCanModal from '@/components/Modal/TrashCanModal/TrashCanModal';
 import { userLocationInfoState } from '@/atoms/user';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { trashCansState } from '@/atoms/trashCan';
 
 const containerStyle = {
   width: '430px',
@@ -26,11 +27,12 @@ const markerIcon = {
 function GoogleMaps() {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [, setSearchQuery] = useState('');
   const inputRef = useRef(null);
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
-  const [userLocationInfo, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
-
+  const [, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
+  const userLocationInfo = useRecoilValue(userLocationInfoState);
+  const trashCans = useRecoilValue(trashCansState);
   // Geocoder 객체 생성
   const geocoder = useRef(new window.google.maps.Geocoder()).current;
 
@@ -120,30 +122,25 @@ function GoogleMaps() {
   useEffect(() => {
     if (map) {
       // 하드코딩된 마커 생성
-      const hardcodedMarkers = [
-        { lat: 37.5599867, lng: 126.993575 },
-        { lat: 37.5609867, lng: 126.993575 },
-        { lat: 37.5599867, lng: 126.992575 }
-      ];
-      const markers = hardcodedMarkers.map(location => {
-        const marker = new window.google.maps.Marker({
-          position: location,
+      const hardcodedMarker = new window.google.maps.Marker({
+        position: { lat: 37.5599867, lng: 126.993575 },
+        map: map,
+      });
+
+      // 서버에서 받아온 데이터를 이용하여 마커 생성
+      const serverMarkers = trashCans.data.trashCans.map(trashCan => {
+        return new window.google.maps.Marker({
+          position: { lat: trashCan.latitude, lng: trashCan.longitude },
           map: map,
         });
-
-        // 마커 클릭 이벤트 리스너
-        marker.addListener('click', () => {
-          openModal(); // isTrashUploadPage가 true일 때 모달 열기
-        });
-
-        return marker;
       });
+
       return () => {
-        markers.forEach(marker => marker.setMap(null));
+        hardcodedMarker.setMap(null); // 하드코딩된 마커 제거
+        serverMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
       };
-      
     }
-  }, [map]);
+  }, [map, trashCans]);
 
   const onLoad = React.useCallback((map: google.maps.Map) => {
     if (center) {
