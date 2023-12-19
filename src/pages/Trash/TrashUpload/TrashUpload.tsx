@@ -8,6 +8,7 @@ import useInput from '@/hooks/useInput';
 import { useRecoilState } from 'recoil';
 import { contentState, imageUrlState } from '@/atoms/trashCan';
 import ImageAnalyzer from '@/components/GoogleVision/ImageAnalyzer';
+import Loading from '@/components/Loading/Loading'; // 가정한 로딩 컴포넌트
 
 export default function TrashUpload() {
     const location = useLocation();
@@ -18,11 +19,13 @@ export default function TrashUpload() {
     const [imageUrl, setImageUrl] = useRecoilState(imageUrlState);
     const content = useInput<HTMLTextAreaElement>();
     const [, setContent] = useRecoilState(contentState);
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
     useEffect(() => {
         if (imageFile) {
             const newImageUrl = URL.createObjectURL(imageFile);
             setImageUrl(newImageUrl);
+            setIsLoading(true); // 이미지 분석 시작 시 로딩 상태 설정
             return () => URL.revokeObjectURL(newImageUrl);
         }
     }, [imageFile, setImageUrl]);
@@ -45,6 +48,7 @@ export default function TrashUpload() {
         alert('쓰레기가 잘 보이지 않아요. 더 가까이에서 촬영해주세요.')
         navigate('/trash');
       }
+      setTimeout(() => setIsLoading(false), 500); // 로딩 상태 해제 (0.5초 지연)
   };
 
     return (
@@ -52,7 +56,8 @@ export default function TrashUpload() {
             {imageUrl && (
                 <>
                     <S.ImagePreview imageUrl={imageUrl} />
-                    <ImageAnalyzer imageUrl={imageUrl} onDetectionResult={handleDetectionResult} />
+                    <ImageAnalyzer imageUrl={imageUrl}onDetectionResult={handleDetectionResult} />
+                    {isLoading && <Loading />} {/* 로딩 컴포넌트 */}
                 </>
             )}
             <S.ContentsArea
