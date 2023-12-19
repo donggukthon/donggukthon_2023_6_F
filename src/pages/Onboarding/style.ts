@@ -38,8 +38,8 @@ export const Image = styled.div`
     margin-top: 100px;
     left: 50%;
     width: 300px;
-    height: 350px;
-    background-size: 300px 350px;
+    height: 300px;
+    background-size: 300px 300px;
     background-image: url(${GreenMainImg});
 `;
 
