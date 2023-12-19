@@ -1,10 +1,13 @@
 import React from "react";
-import "./spinner.css";
-
-export default function LoadingSpinner() {
+import * as S from './style'
+const Loading: React.FC = () => {
   return (
-    <div className="spinner-container">
-      <div className="loading-spinner"></div>
-    </div>
+      <S.Wrapper>
+        <S.SpinnerContainer>
+          <S.Spinner />
+        </S.SpinnerContainer>
+      </S.Wrapper>
   );
-}
+};
+
+export default Loading;
