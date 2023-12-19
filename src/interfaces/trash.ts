@@ -8,6 +8,6 @@ export interface ITrashLocation {
   
   export interface ITrashesLocation {
     data: {
-      trashCans: ITrashLocation[];
+      complaintList: ITrashLocation[];
     };
   }

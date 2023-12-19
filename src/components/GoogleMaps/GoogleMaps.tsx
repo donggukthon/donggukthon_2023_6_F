@@ -7,6 +7,8 @@ import TrashCanModal from '@/components/Modal/TrashCanModal/TrashCanModal';
 import { userLocationInfoState } from '@/atoms/user';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { trashCansState } from '@/atoms/trashCan';
+import { trashesState } from '@/atoms/trash';
+
 import Loading from '../Loading/Loading';
 
 const containerStyle = {
@@ -33,6 +35,7 @@ function GoogleMaps() {
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
   const [, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
   const trashCans = useRecoilValue(trashCansState);
+  const trashes = useRecoilValue(trashesState);
   const geocoder = useRef(new window.google.maps.Geocoder()).current; // Geocoder 객체 생성
   const [selectedTrashCanId, setSelectedTrashCanId] = useState(null);
 
@@ -134,27 +137,47 @@ function GoogleMaps() {
   
       // 서버에서 받아온 데이터를 이용하여 마커 생성
       const trashCanMarkers = trashCans.data.trashCans.map(trashCan => {
-        const marker = new window.google.maps.Marker({
+        const trashCanMarker = new window.google.maps.Marker({
           position: { lat: trashCan.latitude, lng: trashCan.longitude },
           map: map,
         });
   
         // 서버 데이터 마커 클릭 이벤트 리스너 추가
-        marker.addListener('click', () => {
+        trashCanMarker.addListener('click', () => {
           getAddress({ lat: trashCan.latitude, lng: trashCan.longitude });
           setSelectedTrashCanId(trashCan.trashCanId); // 선택된 쓰레기통 ID 업데이트
           openModal(); // openModal에 trashCanId 전달
         });
+
+
   
-        return marker;
+        return trashCanMarker;
       });
-  
+
+      // 서버에서 받아온 데이터를 이용하여 마커 생성
+      const trashMarkers = trashes.data.complaintList.map(trash => {
+        const trashMarker = new window.google.maps.Marker({
+          position: { lat: trash.latitude, lng: trash.longitude },
+          map: map,
+        });
+                
+        // 서버 데이터 마커 클릭 이벤트 리스너 추가
+        trashMarker.addListener('click', () => {
+          getAddress({ lat: trash.latitude, lng: trash.longitude });
+          setSelectedTrashCanId(trash.trashId); // 선택된 쓰레기 ID 업데이트
+          openModal(); // openModal에 trashId 전달
+        });
+
+        return trashMarker;
+      });
+
       return () => {
         hardcodedMarker.setMap(null); // 하드코딩된 마커 제거
         trashCanMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
+        trashMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
       };
     }
-  }, [map, trashCans, openModal, getAddress]);
+  }, [map, trashCans, trashes, openModal, getAddress]);
   
   const onLoad = React.useCallback((map: google.maps.Map) => {
     if (center) {
