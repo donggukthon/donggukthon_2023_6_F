@@ -3,12 +3,30 @@ import ModalButton from '@/components/Button/ModalButton/ModalButton';
 import * as S from './style';
 import useModal from '@/hooks/useModal';
 import SmallModal from '../SmallModal/SmallModal';
+import {useMutation} from '@tanstack/react-query';
+import { declarationsNoTrashCan } from '@/apis/trashCan';
 
-export default function TrashCanModal({onClose, isOpen, modalTitle}) {
+export default function TrashCanModal({onClose, isOpen, modalTitle, trashCanId}) {
   const { isOpen : openSucessModal, openModal, closeModal } = useModal(); // useModal 훅 사용
 
+  const { mutate } = useMutation({
+    mutationFn: () => declarationsNoTrashCan({ trashCanId }),
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        openModal(); // 성공적으로 신고 처리됨
+      } else if (data.status === 404) {
+        alert('쓰레기통이 없습니다');
+      } else if (data.status === 400) {
+        alert('이미 해당 쓰레기통에 대해 신고하셨어요!');
+      }
+    },
+    onError: (error) => {
+      console.log('Error occurred:', error);
+    },
+  });
+
   const handleNoTrashCan = () => {
-    openModal();
+    mutate(); // mutate 함수를 호출하여 신고 처리
   }
 
   const handleCloseSuccessModal = () => {
