@@ -7,6 +7,7 @@ import TrashCanModal from '@/components/Modal/TrashCanModal/TrashCanModal';
 import { userLocationInfoState } from '@/atoms/user';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { trashCansState } from '@/atoms/trashCan';
+import Loading from '../Loading/Loading';
 
 const containerStyle = {
   width: '430px',
@@ -169,7 +170,7 @@ function GoogleMaps() {
 
   // 위치 정보가 로드되기 전까지 표시할 Fallback UI
   if (!center) {
-    return <>Loading location...</>;
+    return <Loading/>;
   }
 
   return (
