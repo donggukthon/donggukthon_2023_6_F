@@ -45,6 +45,8 @@ function GoogleMaps() {
   const [, setSearchQuery] = useState('');
   const inputRef = useRef(null);
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
+  const { isOpen : isTrashModalOpen, openModal : openTrashModal , closeModal : closeTrashModal } = useModal(); // useModal 훅 사용
+
   const [, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
   const trashCans = useRecoilValue(trashCansState);
   const trashes = useRecoilValue(trashesState);
