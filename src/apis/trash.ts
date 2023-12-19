@@ -15,6 +15,20 @@ export const getTrashList = async (page: number, size: number, latitude: number,
     }
 };
 
+//쓰레기 목록 읽기(지도마커 용)
+export const getTrashListForMarker = async (page: number, size: number, latitude: number, logitude: number) => {
+    try {
+        const response = await instance.get(
+            `/api/v1/users/trashs?latitude=${latitude}&logitude=${logitude}`,
+        );
+        return response.data;
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            //
+        } 
+    }
+};
+
 //쓰레기 등록
 export async function TrashComplaint(data: {
     address: string,
