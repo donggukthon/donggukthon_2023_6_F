@@ -11,4 +11,6 @@ export const Info = styled.div`
     font-weight: 400;
     line-height: 20px; /* 100% */
     letter-spacing: -0.24px;
+    position: relative;
+    margin-top: 50px;
 `;

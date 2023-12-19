@@ -35,8 +35,9 @@ export const NavBar = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  top : 13px;
+  //top : 13px;
   line-height: 50px;
+  position: fixed;
 `;
 
 export const BackButton = styled.button`
