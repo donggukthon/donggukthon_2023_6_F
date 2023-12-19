@@ -31,7 +31,7 @@ const ImageAnalyzer = ({ imageUrl, onDetectionResult }) => {
         if (imageUrl) {
             analyze();
         }
-    }, [imageUrl, onDetectionResult]);
+    }, [imageUrl]);
 
     if (!analysisResult) {
         return <>분석 중...</>;
