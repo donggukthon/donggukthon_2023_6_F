@@ -19,10 +19,10 @@ const OPTIONS = {
 };
 
 const markerIcon = {
-    url: MyMarkerImg,
-    scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
-    anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
-  };
+  url: MyMarkerImg,
+  scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
+  anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
+};
 
 function GoogleMaps() {
   const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -32,8 +32,7 @@ function GoogleMaps() {
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
   const [, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
   const trashCans = useRecoilValue(trashCansState);
-  // Geocoder 객체 생성
-  const geocoder = useRef(new window.google.maps.Geocoder()).current;
+  const geocoder = useRef(new window.google.maps.Geocoder()).current; // Geocoder 객체 생성
 
   // 주소 가져오는 함수
   const getAddress = useCallback((location) => {
@@ -54,7 +53,6 @@ function GoogleMaps() {
     }
   });
 }, [setUserLocationInfo, openModal]); // 의존성 배열에 setUserLocationInfo와 openModal 추가
-
 
   useEffect(() => {
     if (!map) return;
@@ -78,7 +76,6 @@ function GoogleMaps() {
         map.setCenter(place.geometry.location);
         map.setZoom(17);  // 상세 확대
       }
-  
     });
   }, [map]);
   
@@ -134,7 +131,7 @@ function GoogleMaps() {
       });
   
       // 서버에서 받아온 데이터를 이용하여 마커 생성
-      const serverMarkers = trashCans.data.trashCans.map(trashCan => {
+      const trashCanMarkers = trashCans.data.trashCans.map(trashCan => {
         const marker = new window.google.maps.Marker({
           position: { lat: trashCan.latitude, lng: trashCan.longitude },
           map: map,
@@ -143,7 +140,7 @@ function GoogleMaps() {
         // 서버 데이터 마커 클릭 이벤트 리스너 추가
         marker.addListener('click', () => {
           getAddress({ lat: trashCan.latitude, lng: trashCan.longitude });
-          openModal();
+          openModal(marker.trashCanId); // openModal에 trashCanId 전달
         });
   
         return marker;
@@ -151,7 +148,7 @@ function GoogleMaps() {
   
       return () => {
         hardcodedMarker.setMap(null); // 하드코딩된 마커 제거
-        serverMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
+        trashCanMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
       };
     }
   }, [map, trashCans, openModal, getAddress]);

@@ -6,7 +6,7 @@ import SmallModal from '../SmallModal/SmallModal';
 import { useMutation } from '@tanstack/react-query';
 import { declarationsNoTrashCan } from '@/apis/trashCan';
 
-export default function TrashCanModal({onClose, isOpen, modalTitle}) {
+export default function TrashCanModal({onClose, isOpen, modalTitle, trashCanId}) {
   const { isOpen : openSucessModal, openModal, closeModal } = useModal(); // useModal 훅 사용
 
   const handleNoTrashCan = () => {
