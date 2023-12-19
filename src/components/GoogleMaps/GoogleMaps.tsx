@@ -21,7 +21,19 @@ const OPTIONS = {
   maxZoom: 18,
 };
 
-const markerIcon = {
+const myMarkerIcon = {
+  url: MyMarkerImg,
+  scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
+  anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
+};
+
+const trashCanMarkerIcon = {
+  url: MyMarkerImg,
+  scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
+  anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
+};
+
+const trashMarkerIcon = {
   url: MyMarkerImg,
   scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
   anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
@@ -112,7 +124,7 @@ function GoogleMaps() {
       const marker = new window.google.maps.Marker({
         position: center,
         map: map,
-        icon: markerIcon
+        icon: myMarkerIcon
       });
       getAddress(location); // 사용자 주소 가져오기
       return () => {
