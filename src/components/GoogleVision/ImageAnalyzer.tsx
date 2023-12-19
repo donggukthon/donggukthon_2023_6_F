@@ -24,7 +24,7 @@ const ImageAnalyzer = ({ imageUrl, onDetectionResult }) => {
                 setAnalysisResult(labels);
                 onDetectionResult(labels);
             } catch (err) {
-                alert(`분석 중 에러가 발생했습니다: ${err.message}`);
+                //alert(`분석 중 에러가 발생했습니다: ${err.message}`);
             }
         };
 
