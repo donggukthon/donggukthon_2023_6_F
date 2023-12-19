@@ -39,7 +39,7 @@ export async function TrashComplaint(data: {
 
     } catch (error) {
         if (error instanceof AxiosError) {
-            //
+            alert("쓰레기 등록 실패")
         } 
     }
 }

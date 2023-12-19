@@ -8,6 +8,7 @@ import { userLocationInfoState } from '@/atoms/user';
 import { contentState, imageFileState } from '@/atoms/trashCan';
 import { useMutation } from '@tanstack/react-query';
 import { TrashCanReport } from '@/apis/trashCan';
+import { TrashComplaint } from '@/apis/trash';
 
 type Props = {
   buttonImgSrc?: string;
@@ -30,8 +31,29 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
   const isReportUploadPage = location.pathname ==='/report/upload'
   const isTrashUploadPage = location.pathname === '/trash/upload';
 
-  const { mutate } = useMutation({
+  const mutateTrashCan = useMutation({
     mutationFn: () => TrashCanReport({ 
+      picture: image, 
+      address: userLocationInfo.address,
+      latitude: userLocationInfo.latitude,
+      longitude: userLocationInfo.longitude,
+      information: content
+    }),
+    onSuccess: () => {
+      if(isTrashUploadPage) {
+        openModal(); // isTrashUploadPage가 true일 때 모달 열기
+      } else {
+        navigate('success');
+      }
+    },
+    onError: (error) => {
+      console.log('Error occurred:', error);
+
+    },
+  });
+
+  const mutateTrash = useMutation({
+    mutationFn: () => TrashComplaint({ 
       picture: image, 
       address: userLocationInfo.address,
       latitude: userLocationInfo.latitude,
@@ -56,11 +78,11 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
     if (isReportPage) {
       inputRef.current.click();
     } else if (isTrashUploadPage) {
-      mutate(); // /trash/upload 페이지일 경우 mutate 함수 호출
+      mutateTrash.mutate(); // /trash/upload 페이지일 경우 mutate 함수 호출
     } else if (isTrashPage) {
       inputRef.current.click(); // /trash 페이지일 경우 inputRef 클릭 이벤트 발생
     } else if (isReportUploadPage) {
-      mutate();
+      mutateTrashCan.mutate();
     } else {
       navigate(route);
     }
