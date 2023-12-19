@@ -10,7 +10,6 @@ export default function LPageLayout({children}: Props) {
     <S.Layout>
         <S.Wrapper>
           <S.NavBar />
-        <S.HamburgerButton />
           {children}
         </S.Wrapper>
     </S.Layout>
