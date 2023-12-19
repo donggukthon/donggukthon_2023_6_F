@@ -76,10 +76,10 @@ export default function ReportUpload() {
         //alert(`모델 로딩 오류: ${error}`);
       }
     };
-    if (image) {
+    if (imageUrl) {
       classifyImage(imageUrl);
     }
-  }, [image, navgate]);
+  }, [imageUrl, navgate]);
 
     // 입력값 변경 시 호출될 함수
     const handleChange = (e) => {
