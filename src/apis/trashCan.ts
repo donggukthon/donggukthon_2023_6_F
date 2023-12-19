@@ -63,7 +63,7 @@ export async function TrashCanReport(data: {
     } catch (error) {
         if (error instanceof AxiosError) {
             //
-            alert("에러발생")
+            alert("쓰레기통 등록 실패")
         } 
     }
 }
