@@ -16,6 +16,13 @@ export const ImagePreview = styled.div<ImagePreviewProps>`
   position: absolute;
 `;
 
+export const PredictionWrapper = styled.div`
+  margin-top: 476px;
+  position: absolute;
+  z-index: 2;
+  width: 350px;
+`;
+
 export const PredictionText = styled.p`
   font-size: 16px;
   font-style: normal;
