@@ -7,6 +7,7 @@ import TrashCanModal from '@/components/Modal/TrashCanModal/TrashCanModal';
 import { userLocationInfoState } from '@/atoms/user';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { trashCansState } from '@/atoms/trashCan';
+import { load } from '@tensorflow-models/mobilenet';
 
 const containerStyle = {
   width: '430px',
@@ -24,7 +25,8 @@ const markerIcon = {
   anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
 };
 
-function GoogleMaps() {
+function GoogleMaps({ onLoading }) {
+  const [isLoading, setisLoading] = useState(true); //로딩상태 관리
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
   const [, setSearchQuery] = useState('');
@@ -34,6 +36,18 @@ function GoogleMaps() {
   const trashCans = useRecoilValue(trashCansState);
   const geocoder = useRef(new window.google.maps.Geocoder()).current; // Geocoder 객체 생성
   const [selectedTrashCanId, setSelectedTrashCanId] = useState(null);
+
+  //로딩 시간 측정
+  let loadStart = performance.now();
+
+  google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+      let loadEnd = performance.now();
+      let loadTime = loadEnd - loadStart;
+  });
+
+  setTimeout(() => {
+    setisLoading(false);
+  }, 500);
 
   // 주소 가져오는 함수
   const getAddress = useCallback((location) => {
@@ -180,7 +194,6 @@ function GoogleMaps() {
         placeholder="장소를 검색해주세요"
         onChange={handleSearchChange}
       />
-      
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center || undefined}
@@ -189,7 +202,6 @@ function GoogleMaps() {
         options={OPTIONS}
       >
       </GoogleMap>
-
       {isOpen && (
         <TrashCanModal 
           modalTitle={'서울특별시 중구 필동로 1길 30'} //TODO: 서버로 받은 데이터 넣어야함

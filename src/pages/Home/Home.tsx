@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import GoogleMaps from '@/components/GoogleMaps/GoogleMaps'
 import ReportButton from '@/components/Button/ReportButton/ReportButton';
 import TrashComplaintButton from '@/components/Button/TrashComplaintButton/TrashComplaintButton';
@@ -35,6 +35,12 @@ function Home() {
   const handleNavigateTrash = () => {
     navigate('/trash')
 }
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleLoading = (loadingState) => {
+    setIsLoading(loadingState);
+  }
 
   return (
     <PageLayout>
