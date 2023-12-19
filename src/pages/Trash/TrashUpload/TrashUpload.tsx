@@ -48,6 +48,7 @@ export default function TrashUpload() {
         alert('쓰레기가 잘 보이지 않아요. 더 가까이에서 촬영해주세요.')
         navigate('/trash');
       }
+      alert(`${labels}`) //TODO: 테스트용.
       setTimeout(() => setIsLoading(false), 500); // 로딩 상태 해제 (0.5초 지연)
   };
 
