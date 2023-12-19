@@ -3,6 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import * as S from './style';
 import SmallModal from '@/components/Modal/SmallModal/SmallModal';
 import useModal from '@/hooks/useModal';
+import { useMutation } from '@tanstack/react-query';
+import { TrashCanReport } from '@/apis/trashCan';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { contentState, imageFileState } from '@/atoms/trashCan';
+import { userLocationInfoState } from '@/atoms/user';
 
 type Props = {
   buttonImgSrc?: string;
@@ -14,16 +19,42 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
   const location = useLocation();
   const inputRef = useRef(null);
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
-
+  const image = useRecoilValue(imageFileState);
+  const userLocationInfo = useRecoilValue(userLocationInfoState); // Recoil 상태 사용
+  const [,setImageFile] = useRecoilState(imageFileState);
   // 현재 경로가 '/report'인지 확인
   const isReportPage = location.pathname === '/report';
+  const isReportUploadPage = location.pathname ==='/report/upload'
   const isTrashUploadPage = location.pathname === '/trash/upload';
+  const content = useRecoilValue(contentState);
+
+  const { mutate } = useMutation({
+    mutationFn: () => TrashCanReport({ 
+      picture: image, 
+      address: userLocationInfo.address,
+      latitude: userLocationInfo.latitude,
+      longitude: userLocationInfo.longitude,
+      information: content
+    }),
+    onSuccess: (data) => {
+      navigate('report/upload/success');
+      alert("ddd");
+
+    },
+    onError: (error) => {
+      console.log('Error occurred:', error);
+      alert("asss");
+
+    },
+  });
 
   const handleNavigate = () => {
     if (isReportPage) {
       inputRef.current.click();
     } else if (isTrashUploadPage) {
       openModal(); // isTrashUploadPage가 true일 때 모달 열기
+    } else if (isReportUploadPage) {
+      mutate()
     } else {
       navigate(route);
     }
@@ -33,6 +64,8 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
   const handleCapture = (event) => {
     const file = event.target.files[0];
     if (file) {
+
+      setImageFile(file); // setImageFile은 Recoil atom을 업데이트하는 함수
       // 사진 처리 및 이동
       navigate('/report/upload', { state: { image: file } });
     }
