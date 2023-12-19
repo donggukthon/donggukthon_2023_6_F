@@ -3,7 +3,7 @@ import PageLayoutGreen from '@/components/PageLayoutGreen/PageLayoutGreen';
 import Node from '@/components/Node/Node';
 import * as S from './style'
 
-export default function TrashStatus() {
+export default function TrashList() {
   const NodeList = [<Node />, <Node/>];
 
   return (

@@ -6,6 +6,8 @@ import ReportSuccess from './pages/Report/ReportSuccess/ReportSuccess';
 import Trash from './pages/Trash/Trash';
 import TrashUpload from './pages/Trash/TrashUpload/TrashUpload';
 import Onboarding from './pages/Onboarding/Onboarding';
+import TrashList from './pages/TrashList/TrashList';
+import ReportList from './pages/ReportList/ReportList';
 export default function Router() {
 
   return (
@@ -16,9 +18,11 @@ export default function Router() {
             <Route path="/report" element={<Report />} />
             <Route path="/report/upload" element={<ReportUpload />} />
             <Route path="/report/upload/success" element={<ReportSuccess />} />
+            <Route path="/report/list" element={<ReportList />} />
 
             <Route path="/trash" element={<Trash />} />
             <Route path="/trash/upload" element={<TrashUpload />} />
+            <Route path="/trash/noticeboard" element={<TrashList />} />
         </Routes>
     </>
   );

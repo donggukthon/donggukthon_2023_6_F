@@ -3,7 +3,7 @@ import * as S from './style';
 import Node from '@/components/Node/Node';
 import { useNavigate } from 'react-router-dom';
 
-export default function ReportStatus() {
+export default function ReportList() {
     const NodeList = [<Node />, <Node/>];
 
     return (
