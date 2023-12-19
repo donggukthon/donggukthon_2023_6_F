@@ -7,8 +7,8 @@ import * as S from './style';
 import useInput from '@/hooks/useInput';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import * as tf from '@tensorflow/tfjs';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { contentState, imageFileState, imageUrlState } from '@/atoms/trashCan';
+import { useRecoilState } from 'recoil';
+import { contentState, imageUrlState } from '@/atoms/trashCan';
 
 
 const validPredictions = [
