@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PageLayoutGreen from '@/components/PageLayoutGreen/PageLayoutGreen';
 import PageLayoutGreenBottom from '@/components/PageLayoutGreenBottom/PageLayoutGreenBottom';
@@ -8,6 +8,7 @@ import useInput from '@/hooks/useInput';
 import { useRecoilState } from 'recoil';
 import { contentState, imageUrlState } from '@/atoms/trashCan';
 import ImageAnalyzer from '@/components/GoogleVision/ImageAnalyzer';
+import Loading from '@/components/Loading/Loading'; // 가정한 로딩 컴포넌트
 
 const validPredictions = [
   'ashcan', 'trash can', 'garbage can', 'wastebin', 'ash bin',
@@ -20,15 +21,17 @@ export default function ReportUpload() {
   const location = useLocation();
   const navigate = useNavigate();
   const imageFile = location.state?.image;
-  const [imageUrl, setImageUrl] = useRecoilState(imageUrlState); // Recoil atom 사용
+  const [imageUrl, setImageUrl] = useRecoilState(imageUrlState);
   const content = useInput<HTMLTextAreaElement>();
   const [, setContent] = useRecoilState(contentState);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
 
   useEffect(() => {
     if (imageFile) {
       const newImageUrl = URL.createObjectURL(imageFile);
-      setImageUrl(newImageUrl); // Recoil atom 업데이트
-      return () => URL.revokeObjectURL(newImageUrl); // URL 사용 후 해제
+      setImageUrl(newImageUrl);
+      setIsLoading(true); // 이미지 분석 시작 시 로딩 상태 설정
+      return () => URL.revokeObjectURL(newImageUrl);
     }
   }, [imageFile, setImageUrl]);
 
@@ -40,11 +43,12 @@ export default function ReportUpload() {
       alert('쓰레기통을 다시 촬영해주세요!');
       navigate('/report');
     }
+    setTimeout(() => setIsLoading(false), 500); // 로딩 상태 해제 (0.5초 지연)
   };
 
   const handleChange = (e) => {
-    setContent(e.target.value); // Recoil 상태 업데이트
-    content.handleChange(e); // useInput 훅의 handleChange 함수 호출
+    setContent(e.target.value);
+    content.handleChange(e);
   };
 
   return (
@@ -53,6 +57,7 @@ export default function ReportUpload() {
         <>
           <S.ImagePreview imageUrl={imageUrl} />
           <ImageAnalyzer imageUrl={imageUrl} onDetectionResult={handleDetectionResult} />
+          {isLoading && <Loading />} {/* 로딩 컴포넌트 */}
         </>
       )}
       <S.ContentsArea
