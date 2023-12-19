@@ -94,8 +94,6 @@ export default function ReportUpload() {
       {image && (
         <S.ImagePreview imageUrl={imageUrl} />
       )}
-      <S.PredictionWrapper>
-      </S.PredictionWrapper>
       <S.ContentsArea
         placeholder="쓰레기통 위치에 대한 간단한 설명."
         value={content.value}

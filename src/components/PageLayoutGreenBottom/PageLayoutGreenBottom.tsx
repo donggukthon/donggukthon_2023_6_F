@@ -26,8 +26,9 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
 
   const isReportPage = location.pathname === '/report';
+  const isTrashPage = location.pathname === '/trash' || '/Trash';
   const isReportUploadPage = location.pathname ==='/report/upload'
-  const isTrashUploadPage = location.pathname === '/trash/upload';
+  const isTrashUploadPage = location.pathname === '/trash/upload' || '/Trash/upload';
 
   const { mutate } = useMutation({
     mutationFn: () => TrashCanReport({ 
@@ -38,7 +39,11 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
       information: content
     }),
     onSuccess: () => {
-      navigate('success');
+      if(isTrashUploadPage) {
+        openModal(); // isTrashUploadPage가 true일 때 모달 열기
+      } else {
+        navigate('success');
+      }
     },
     onError: (error) => {
       console.log('Error occurred:', error);
@@ -51,13 +56,16 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
     if (isReportPage) {
       inputRef.current.click();
     } else if (isTrashUploadPage) {
-      openModal(); // isTrashUploadPage가 true일 때 모달 열기
+      mutate(); // /trash/upload 페이지일 경우 mutate 함수 호출
+    } else if (isTrashPage) {
+      inputRef.current.click(); // /trash 페이지일 경우 inputRef 클릭 이벤트 발생
     } else if (isReportUploadPage) {
       mutate();
     } else {
       navigate(route);
     }
   };
+  
 
   // 카메라 촬영 후 처리
   const handleCapture = (event) => {
@@ -65,7 +73,12 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
     if (file) {
       // 사진 처리 및 이동
       setImageFile(file); // setImageFile은 Recoil atom을 업데이트하는 함수
-      navigate('/report/upload', { state: { image: file } });
+      if(isReportPage) {
+        navigate('/report/upload', { state: { image: file } });
+      } else if(isTrashPage) {
+        navigate('/trash/upload', { state: { image: file } });
+      }
+      
     }
   };
 
@@ -76,7 +89,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
   return (
     <>
-      {isReportPage && (
+      {(isReportPage || isTrashPage )&& (
         <S.HiddenInput 
         type="file" 
         accept="image/*" 
