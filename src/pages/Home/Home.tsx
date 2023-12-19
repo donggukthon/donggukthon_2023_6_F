@@ -6,7 +6,7 @@ import * as S from './style';
 import PageLayout from '@/components/PageLayout/PageLayout';
 import { useNavigate } from 'react-router-dom';
 import { getTrashCansLocation } from '@/apis/trashCan';
-import {useSuspenseQuery} from '@tanstack/react-query';
+import {useQuery} from '@tanstack/react-query';
 import { useRecoilState } from 'recoil';
 import { ITrashCansLocation } from '@/interfaces/trashCans';
 import { trashCansState } from '@/atoms/trashCan';
@@ -17,7 +17,7 @@ function Home() {
   const [, setTrashCans] = useRecoilState(trashCansState);
   const [userLocationInfo] = useRecoilState(userLocationInfoState);
 
-  const {data} = useSuspenseQuery<ITrashCansLocation>({
+  const {data} = useQuery<ITrashCansLocation>({
     queryKey: ['trashCansLocation'],
     queryFn: () => getTrashCansLocation(userLocationInfo.latitude, userLocationInfo.longitude),
   });

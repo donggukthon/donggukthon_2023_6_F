@@ -31,7 +31,6 @@ function GoogleMaps() {
   const inputRef = useRef(null);
   const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
   const [, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
-  const userLocationInfo = useRecoilValue(userLocationInfoState);
   const trashCans = useRecoilValue(trashCansState);
   // Geocoder 객체 생성
   const geocoder = useRef(new window.google.maps.Geocoder()).current;
@@ -126,22 +125,36 @@ function GoogleMaps() {
         position: { lat: 37.5599867, lng: 126.993575 },
         map: map,
       });
-
+  
+      // 하드코딩된 마커 클릭 이벤트 리스너 추가
+      hardcodedMarker.addListener('click', () => {
+        getAddress({ lat: 37.5599867, lng: 126.993575 });
+        openModal();
+      });
+  
       // 서버에서 받아온 데이터를 이용하여 마커 생성
       const serverMarkers = trashCans.data.trashCans.map(trashCan => {
-        return new window.google.maps.Marker({
+        const marker = new window.google.maps.Marker({
           position: { lat: trashCan.latitude, lng: trashCan.longitude },
           map: map,
         });
+  
+        // 서버 데이터 마커 클릭 이벤트 리스너 추가
+        marker.addListener('click', () => {
+          getAddress({ lat: trashCan.latitude, lng: trashCan.longitude });
+          openModal();
+        });
+  
+        return marker;
       });
-
+  
       return () => {
         hardcodedMarker.setMap(null); // 하드코딩된 마커 제거
         serverMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
       };
     }
-  }, [map, trashCans]);
-
+  }, [map, trashCans, openModal, getAddress]);
+  
   const onLoad = React.useCallback((map: google.maps.Map) => {
     if (center) {
       const bounds = new window.google.maps.LatLngBounds(center);
