@@ -5,9 +5,13 @@ import useModal from '@/hooks/useModal';
 import SmallModal from '../SmallModal/SmallModal';
 import {useMutation} from '@tanstack/react-query';
 import { declarationsNoTrashCan } from '@/apis/trashCan';
+import { trashCansState } from '@/atoms/trashCan';
+import { useRecoilValue } from 'recoil';
 
-export default function TrashCanModal({onClose, isOpen, modalTitle, trashCanId}) {
+export default function TrashCanModal({onClose, isOpen, trashCanId}) {
   const { isOpen : openSucessModal, openModal, closeModal } = useModal(); // useModal 훅 사용
+  const trashCans = useRecoilValue(trashCansState).data.trashCans;
+  const selectedTrashCan = trashCans.find(trashCan => trashCan.trashCanId === trashCanId);
 
   const { mutate } = useMutation({
     mutationFn: () => declarationsNoTrashCan({ trashCanId }),
@@ -37,14 +41,14 @@ export default function TrashCanModal({onClose, isOpen, modalTitle, trashCanId})
   return (
     <>
       <Modal
-        modalTitle={modalTitle}
+        modalTitle={selectedTrashCan ? selectedTrashCan.address : ''}
         isOpen={isOpen}
         onClose={onClose}
         imageType={'MediumModal'}
       >
         <S.Wrapper>
           <S.ImgBox>
-            <S.Img src={""} />
+          <S.Img src={selectedTrashCan ? selectedTrashCan.picture : ''} />
           </S.ImgBox>
         </S.Wrapper>
         <S.ModalOkButtonWrapper>

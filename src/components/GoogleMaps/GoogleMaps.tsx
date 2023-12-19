@@ -193,7 +193,6 @@ function GoogleMaps() {
 
       {isOpen && (
         <TrashCanModal 
-          modalTitle={'서울특별시 중구 필동로 1길 30'} //TODO: 서버로 받은 데이터 넣어야함
           isOpen={isOpen}
           onClose={closeModal}
           trashCanId={selectedTrashCanId} // TrashCanModal에 선택된 쓰레기통 ID 전달
