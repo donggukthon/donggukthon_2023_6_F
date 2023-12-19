@@ -2,7 +2,7 @@ import { instance } from './axios';
 import { AxiosError } from 'axios';
 
 //쓰레기 목록 읽기
-export const getTrashCansList = async (page: number, size: number, latitude: number, logitude: number) => {
+export const getTrashList = async (page: number, size: number, latitude: number, logitude: number) => {
     try {
         const response = await instance.get(
             `/api/v1/users/trashs?page=${page}&size=${size}&latitude=${latitude}&logitude=${logitude}`,
