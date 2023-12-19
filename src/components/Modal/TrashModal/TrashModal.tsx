@@ -6,27 +6,28 @@ import SmallModal from '../SmallModal/SmallModal';
 import {useMutation} from '@tanstack/react-query';
 import { trashesState } from '@/atoms/trash';
 import { useRecoilValue } from 'recoil';
+import { cleanTrash } from '@/apis/trash';
 
-export default function TrashModal({onClose, isOpen, trashId}) {
+type TrashModalProps = {
+  onClose: () => void;
+  isOpen: boolean;
+  trashId: number; // 여기에서 trashId의 타입을 number로 명시
+};
+
+export default function TrashModal({ onClose, isOpen, trashId }: TrashModalProps) {
   const { isOpen : openSucessModal, openModal, closeModal } = useModal(); // useModal 훅 사용
   const trashes = useRecoilValue(trashesState).data.complaintList;
   const selectedTrash = trashes.find(trashes => trashes.trashId === trashId);
 
-  // const { mutate } = useMutation({
-  //   mutationFn: () => declarationsNoTrashCan({ trashId }),
-  //   onSuccess: (data) => {
-  //     if (data.status === 200) {
-  //       openModal(); // 성공적으로 신고 처리됨
-  //     } else if (data.status === 404) {
-  //       alert('쓰레기통이 없습니다');
-  //     } else if (data.status === 400) {
-  //       alert('이미 해당 쓰레기통에 대해 신고하셨어요!');
-  //     }
-  //   },
-  //   onError: (error) => {
-  //     console.log('Error occurred:', error);
-  //   },
-  // });
+  const { mutate } = useMutation({
+    mutationFn: () => cleanTrash(trashId),
+    onSuccess: () => {
+      openModal();
+    },
+    onError: (error) => {
+      console.log('Error occurred:', error);
+    },
+  });
 
   const handleCleanTrash = () => {
     //TODO: 쓰레기 치웠어요! 버튼 누르면 카메라앱 연결 -> 쓰레기 없는지 detection -> 없으면 쓰레기 상태변경 api 호출, 있으면 alert(‘아직 쓰레기가 더 있어요.’)

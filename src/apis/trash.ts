@@ -16,7 +16,7 @@ export const getTrashList = async (page: number, size: number, latitude: number,
 };
 
 //쓰레기 목록 읽기(지도마커 용)
-export const getTrashListForMarker = async (page: number, size: number, latitude: number, logitude: number) => {
+export const getTrashListForMarker = async (latitude: number, logitude: number) => {
     try {
         const response = await instance.get(
             `/api/v1/users/trashs?latitude=${latitude}&logitude=${logitude}`,
@@ -59,7 +59,7 @@ export async function TrashComplaint(data: {
 }
 
 //쓰레기 상태변경
-export async function cleanTrash(trashId: string) {
+export async function cleanTrash(trashId: number) {
     try {
         await instance.delete(`/api/v1/trashs/${trashId}`, {});
     } catch (error) {

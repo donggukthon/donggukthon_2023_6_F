@@ -2,10 +2,10 @@ import { instance } from './axios';
 import { AxiosError } from 'axios';
 
 //쓰레기통 신고하기
-export async function declarationsNoTrashCan(data: { trashCanId: string }) {
+export async function declarationsNoTrashCan(trashCanId: number) {
     try {
         const response = await instance.post('/api/v1/declarations', {
-            trashCanId: data.trashCanId
+            trashCanId: trashCanId
         });
         return {
             status: response.status //200

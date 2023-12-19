@@ -10,6 +10,7 @@ import { trashCansState } from '@/atoms/trashCan';
 import { trashesState } from '@/atoms/trash';
 
 import Loading from '../Loading/Loading';
+import TrashModal from '../Modal/TrashModal/TrashModal';
 
 const containerStyle = {
   width: '430px',
@@ -52,6 +53,7 @@ function GoogleMaps() {
   const trashes = useRecoilValue(trashesState);
   const geocoder = useRef(new window.google.maps.Geocoder()).current; // Geocoder 객체 생성
   const [selectedTrashCanId, setSelectedTrashCanId] = useState(null);
+  const [selectedTrashId, setSelectedTrashId] = useState(null);
 
   // 주소 가져오는 함수
   const getAddress = useCallback((location) => {
@@ -178,8 +180,8 @@ function GoogleMaps() {
         // 서버 데이터 마커 클릭 이벤트 리스너 추가
         trashMarker.addListener('click', () => {
           getAddress({ lat: trash.latitude, lng: trash.longitude });
-          setSelectedTrashCanId(trash.trashId); // 선택된 쓰레기 ID 업데이트
-          openModal(); // openModal에 trashId 전달
+          setSelectedTrashId(trash.trashId); // 선택된 쓰레기 ID 업데이트
+          openTrashModal(); // openModal에 trashId 전달
         });
 
         return trashMarker;
@@ -233,6 +235,14 @@ function GoogleMaps() {
           isOpen={isOpen}
           onClose={closeModal}
           trashCanId={selectedTrashCanId} // TrashCanModal에 선택된 쓰레기통 ID 전달
+        />
+      )}
+
+      {isTrashModalOpen && (
+        <TrashModal 
+          isOpen={isTrashModalOpen}
+          onClose={closeTrashModal}
+          trashId={selectedTrashId} // TrashModal에 선택된 쓰레기통 ID 전달
         />
       )}
     </>
