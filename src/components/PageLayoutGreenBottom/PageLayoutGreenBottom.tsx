@@ -26,9 +26,9 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
 
   const isReportPage = location.pathname === '/report';
-  const isTrashPage = location.pathname === '/trash' || '/Trash';
+  const isTrashPage = location.pathname === '/trash';
   const isReportUploadPage = location.pathname ==='/report/upload'
-  const isTrashUploadPage = location.pathname === '/trash/upload' || '/Trash/upload';
+  const isTrashUploadPage = location.pathname === '/trash/upload';
 
   const { mutate } = useMutation({
     mutationFn: () => TrashCanReport({ 
