@@ -1,12 +1,11 @@
-import React, { useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React from 'react';
 import * as S from './style';
 
 type Props = {
-  address?:string;
-  picture?:string;
-  information?:string;
-  complainCount?:number;
+  address?: string;
+  picture?: string;
+  information?: string;
+  complainCount?: number;
 };
 
 export default function Node({ address, picture, information, complainCount }: Props) {
@@ -25,4 +24,4 @@ export default function Node({ address, picture, information, complainCount }: P
             </S.content>
         </S.Wrapper>
     );
-  }
+}
