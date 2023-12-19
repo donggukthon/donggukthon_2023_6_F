@@ -33,6 +33,7 @@ function GoogleMaps() {
   const [, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
   const trashCans = useRecoilValue(trashCansState);
   const geocoder = useRef(new window.google.maps.Geocoder()).current; // Geocoder 객체 생성
+  const [selectedTrashCanId, setSelectedTrashCanId] = useState(null);
 
   // 주소 가져오는 함수
   const getAddress = useCallback((location) => {
@@ -140,7 +141,8 @@ function GoogleMaps() {
         // 서버 데이터 마커 클릭 이벤트 리스너 추가
         marker.addListener('click', () => {
           getAddress({ lat: trashCan.latitude, lng: trashCan.longitude });
-          openModal(marker.trashCanId); // openModal에 trashCanId 전달
+          setSelectedTrashCanId(trashCan.trashCanId); // 선택된 쓰레기통 ID 업데이트
+          openModal(); // openModal에 trashCanId 전달
         });
   
         return marker;
@@ -193,6 +195,7 @@ function GoogleMaps() {
           modalTitle={'서울특별시 중구 필동로 1길 30'} //TODO: 서버로 받은 데이터 넣어야함
           isOpen={isOpen}
           onClose={closeModal}
+          trashCanId={selectedTrashCanId} // TrashCanModal에 선택된 쓰레기통 ID 전달
         />
       )}
     </>
