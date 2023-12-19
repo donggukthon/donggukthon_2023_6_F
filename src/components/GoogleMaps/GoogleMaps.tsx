@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
 import MyMarkerImg from '@/assets/Marker/MyMarker.png';
+import TrashCanMarkerImg from '@/assets/Marker/TrashCanMarker.png';
+import TrashMarkerImg from '@/assets/Marker/TrashMarker.png';
+
 import * as S from './style';
 import useModal from '@/hooks/useModal';
 import TrashCanModal from '@/components/Modal/TrashCanModal/TrashCanModal';
@@ -29,13 +32,13 @@ const myMarkerIcon = {
 };
 
 const trashCanMarkerIcon = {
-  url: MyMarkerImg,
+  url: TrashCanMarkerImg,
   scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
   anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
 };
 
 const trashMarkerIcon = {
-  url: MyMarkerImg,
+  url: TrashMarkerImg,
   scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
   anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
 };
@@ -156,6 +159,7 @@ function GoogleMaps() {
         const trashCanMarker = new window.google.maps.Marker({
           position: { lat: trashCan.latitude, lng: trashCan.longitude },
           map: map,
+          icon: trashCanMarkerIcon,
         });
   
         // 서버 데이터 마커 클릭 이벤트 리스너 추가
@@ -175,6 +179,7 @@ function GoogleMaps() {
         const trashMarker = new window.google.maps.Marker({
           position: { lat: trash.latitude, lng: trash.longitude },
           map: map,
+          icon: trashMarkerIcon,
         });
                 
         // 서버 데이터 마커 클릭 이벤트 리스너 추가
