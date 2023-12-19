@@ -18,4 +18,5 @@ export const imageFileState = atom<File>({
 
 export const contentState = atom<string>({
   key: 'contentState', // 고유한 key
+  default: '',
 });
