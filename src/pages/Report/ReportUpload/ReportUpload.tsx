@@ -80,6 +80,15 @@ export default function ReportUpload() {
     }
   }, [image, navgate]);
 
+    // 입력값 변경 시 호출될 함수
+    const handleChange = (e) => {
+      // Recoil 상태 업데이트
+      setContent(e.target.value);
+  
+      // useInput 훅의 handleChange 함수 호출
+      content.handleChange(e);
+    };
+
   return (
     <PageLayoutGreen title={"제보하기"}>
       {image && (
@@ -90,7 +99,7 @@ export default function ReportUpload() {
       <S.ContentsArea
         placeholder="쓰레기통 위치에 대한 간단한 설명."
         value={content.value}
-        onChange={(e) => setContent(e.target.value)}
+        onChange={handleChange} // 위에서 정의한 handleChange 함수 사용
         />
       <PageLayoutGreenBottom buttonImgSrc={CheckButtonImg}/>
     </PageLayoutGreen>

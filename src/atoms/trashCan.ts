@@ -1,6 +1,5 @@
 import { ITrashCansLocation } from '@/interfaces/trashCans';
 import { atom } from 'recoil';
-import { ReportContentProps } from '@/interfaces/reportUpload';
 
 export const trashCansState = atom<ITrashCansLocation>({
   key: 'trashCansState',
@@ -18,4 +17,5 @@ export const imageFileState = atom<File>({
 
 export const contentState = atom<string>({
   key: 'contentState', // 고유한 key
+  default: '',
 });
