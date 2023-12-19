@@ -59,9 +59,9 @@ export async function TrashComplaint(data: {
 }
 
 //쓰레기 상태변경
-export async function updateTrash(trashId: string) {
+export async function cleanTrash(trashId: string) {
     try {
-        await instance.patch(`/api/v1/trashs/${trashId}`, {});
+        await instance.delete(`/api/v1/trashs/${trashId}`, {});
     } catch (error) {
         if (error instanceof AxiosError) {
             //
