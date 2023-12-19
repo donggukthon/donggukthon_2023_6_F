@@ -19,3 +19,9 @@ export const contentState = atom<string>({
   key: 'contentState', // 고유한 key
   default: '',
 });
+
+
+export const imageUrlState = atom<string>({
+  key: 'imageUrlState', // 고유한 key
+  default: '', // 초기값
+});
