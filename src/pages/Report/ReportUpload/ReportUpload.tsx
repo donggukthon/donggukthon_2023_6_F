@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PageLayoutGreen from '@/components/PageLayoutGreen/PageLayoutGreen';
 import PageLayoutGreenBottom from '@/components/PageLayoutGreenBottom/PageLayoutGreenBottom';
@@ -8,7 +8,7 @@ import useInput from '@/hooks/useInput';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import * as tf from '@tensorflow/tfjs';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { contentState, imageFileState } from '@/atoms/trashCan';
+import { contentState, imageFileState, imageUrlState } from '@/atoms/trashCan';
 
 
 const validPredictions = [
@@ -19,20 +19,19 @@ const validPredictions = [
 
 export default function ReportUpload() {
   const location = useLocation();
-  const navgate = useNavigate();
+  const navigate = useNavigate();
   const imageFile = location.state?.image;
-  const [imageUrl, setImageUrl] = useState<string>(null);
-  const image = useRecoilValue(imageFileState);
+  const [imageUrl, setImageUrl] = useRecoilState(imageUrlState); // Recoil atom 사용
   const content = useInput<HTMLTextAreaElement>();
   const [, setContent] = useRecoilState(contentState);
 
   useEffect(() => {
     if (imageFile) {
       const newImageUrl = URL.createObjectURL(imageFile);
-      setImageUrl(newImageUrl);
+      setImageUrl(newImageUrl); // Recoil atom 업데이트
       return () => URL.revokeObjectURL(newImageUrl); // URL 사용 후 해제
     }
-  }, [imageFile]);
+  }, [imageFile, setImageUrl]);
 
   useEffect(() => {
     const classifyImage = async (imageSrc: string) => {
@@ -60,7 +59,7 @@ export default function ReportUpload() {
               if (!isValidPrediction) {
                 // 일치하는 예측 결과가 없으면 /report로 네비게이트
                 alert('쓰레기통을 다시 촬영해주세요!')
-                navgate('/report');
+                navigate('/report');
               }
             } else {
               //alert('분석 결과가 없습니다.');
@@ -79,7 +78,7 @@ export default function ReportUpload() {
     if (imageUrl) {
       classifyImage(imageUrl);
     }
-  }, [imageUrl, navgate]);
+  }, [imageUrl, navigate]);
 
     // 입력값 변경 시 호출될 함수
     const handleChange = (e) => {
@@ -90,17 +89,15 @@ export default function ReportUpload() {
       content.handleChange(e);
     };
 
-  return (
-    <PageLayoutGreen title={"제보하기"}>
-      {image && (
-        <S.ImagePreview imageUrl={imageUrl} />
-      )}
-      <S.ContentsArea
-        placeholder="쓰레기통 위치에 대한 간단한 설명."
-        value={content.value}
-        onChange={handleChange} // 위에서 정의한 handleChange 함수 사용
+    return (
+      <PageLayoutGreen title={"제보하기"}>
+        {imageUrl && <S.ImagePreview imageUrl={imageUrl} />}
+        <S.ContentsArea
+          placeholder="쓰레기통 위치에 대한 간단한 설명."
+          value={content.value}
+          onChange={handleChange}
         />
-      <PageLayoutGreenBottom buttonImgSrc={CheckButtonImg}/>
-    </PageLayoutGreen>
-  );
-}
+        <PageLayoutGreenBottom buttonImgSrc={CheckButtonImg} />
+      </PageLayoutGreen>
+    );
+  }
