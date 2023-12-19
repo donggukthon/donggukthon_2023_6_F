@@ -2,10 +2,14 @@ import React from 'react'
 import LgreenPageLayout from '@/components/LgreenPageLayout/LgreenPageLayout'
 import Button from '@/components/Button/Button';
 import * as S from './style'
+import { useNavigate } from 'react-router-dom';
 
 export default function Onboarding() {
+  const navigate = useNavigate(); //TODO: 로그인 구현되면 삭제 예정
+
   const handleClick = () => {
-      window.location.href = '';
+      //window.location.href = '';
+      navigate('/home'); //TODO: 로그인 구현되면 삭제 예정
   }
 
   return (
