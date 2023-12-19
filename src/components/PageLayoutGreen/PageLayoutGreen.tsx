@@ -17,9 +17,9 @@ export default function PageLayoutGreen({children, title}: Props) {
     <S.Layout>
         <S.Wrapper>
           <S.NavBar>
+          <S.BackButton onClick={() => handleNavigateBack()}/>
             {title}
           </S.NavBar>
-        <S.BackButton onClick={() => handleNavigateBack()}/>
           {children}
         </S.Wrapper>
     </S.Layout>

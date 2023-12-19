@@ -30,7 +30,7 @@ export const getTrashCansList = async (page: number, size: number) => {
         const response = await instance.get(
             `/api/v1/users/trashCans?page=${page}&size=${size}`,
         );
-        return response.data;
+        return response.data.data.reportList;
     } catch (error) {
         if (error instanceof AxiosError) {
             //
