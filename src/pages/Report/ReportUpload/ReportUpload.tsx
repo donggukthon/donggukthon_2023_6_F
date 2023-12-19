@@ -7,6 +7,9 @@ import * as S from './style';
 import useInput from '@/hooks/useInput';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import * as tf from '@tensorflow/tfjs';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { contentState, imageFileState } from '@/atoms/trashCan';
+
 
 const validPredictions = [
   'ashcan', 'trash can', 'garbage can', 'wastebin', 'ash bin',
@@ -18,8 +21,10 @@ export default function ReportUpload() {
   const location = useLocation();
   const navgate = useNavigate();
   const imageFile = location.state?.image;
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>(null);
+  const image = useRecoilValue(imageFileState);
   const content = useInput<HTMLTextAreaElement>();
+  const [, setContent] = useRecoilState(contentState);
 
   useEffect(() => {
     if (imageFile) {
@@ -70,14 +75,14 @@ export default function ReportUpload() {
         //alert(`모델 로딩 오류: ${error}`);
       }
     };
-    if (imageUrl) {
+    if (image) {
       classifyImage(imageUrl);
     }
-  }, [imageUrl, navgate]);
+  }, [image, navgate]);
 
   return (
     <PageLayoutGreen title={"제보하기"}>
-      {imageUrl && (
+      {image && (
         <S.ImagePreview imageUrl={imageUrl} />
       )}
       <S.PredictionWrapper>
@@ -85,9 +90,9 @@ export default function ReportUpload() {
       <S.ContentsArea
         placeholder="쓰레기통 위치에 대한 간단한 설명."
         value={content.value}
-        onChange={content.handleChange}
-      />
-      <PageLayoutGreenBottom buttonImgSrc={CheckButtonImg} route={"/report/upload/success"}/>
+        onChange={(e) => setContent(e.target.value)}
+        />
+      <PageLayoutGreenBottom buttonImgSrc={CheckButtonImg}/>
     </PageLayoutGreen>
   );
 }
