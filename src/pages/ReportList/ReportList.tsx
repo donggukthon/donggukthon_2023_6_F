@@ -38,16 +38,19 @@ export default function ReportList() {
     );
   };
 
+  const trashCanImage = localStorage.getItem("trashCanImage")
+  const trashCanContent = localStorage.getItem("trashCanContent")
+
   return (
       <PageLayoutGreen title={"제보현황"}>
           <S.List>
               {trashCanList.map((trashCan, index) => (
                   <S.ListItem key={index}>
                       <Node 
-                          address={trashCan.address}
-                          picture={trashCan.picture}
-                          information={trashCan.information}
-                          complainCount={trashCan.complainCount}
+                          address={"서울특별시 중구 동국대학교 혜화관"}
+                          picture={trashCanImage}
+                          information={trashCanContent}
+                          complainCount={0}
                       />
                   </S.ListItem>
               ))}

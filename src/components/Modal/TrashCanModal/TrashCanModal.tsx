@@ -19,42 +19,47 @@ export default function TrashCanModal({onClose, isOpen, trashCanId}: TrashCanMod
   const trashCans = useRecoilValue(trashCansState).data.trashCans;
   const selectedTrashCan = trashCans.find(trashCan => trashCan.trashCanId === trashCanId);
 
-  const { mutate } = useMutation({
-    mutationFn: () => declarationsNoTrashCan(trashCanId),
-    onSuccess: (data) => {
-      if (data.status === 200) {
-        openModal(); // 성공적으로 신고 처리됨
-      } else if (data.status === 404) {
-        alert('쓰레기통이 없습니다');
-      } else if (data.status === 400) {
-        alert('이미 해당 쓰레기통에 대해 신고하셨어요!');
-      }
-    },
-    onError: (error) => {
-      console.log('Error occurred:', error);
-    },
-  });
+  // const { mutate } = useMutation({
+  //   mutationFn: () => declarationsNoTrashCan(trashCanId),
+  //   onSuccess: (data) => {
+  //     if (data.status === 200) {
+  //       openModal(); // 성공적으로 신고 처리됨
+  //     } else if (data.status === 404) {
+  //       alert('쓰레기통이 없습니다');
+  //     } else if (data.status === 400) {
+  //       alert('이미 해당 쓰레기통에 대해 신고하셨어요!');
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.log('Error occurred:', error);
+  //   },
+  // });
 
   const handleNoTrashCan = () => {
-    mutate(); // mutate 함수를 호출하여 신고 처리
+   // mutate(); // mutate 함수를 호출하여 신고 처리
   }
 
   const handleCloseSuccessModal = () => {
+          localStorage.removeItem("trashImage");
+      localStorage.removeItem("trashContent");
+      localStorage.removeItem("trashLatitude");
+      localStorage.removeItem("trashLongitude");
     closeModal();
     onClose();
   }
+  const trashCanImage = (localStorage.getItem("trashCanImage"));
 
   return (
     <>
       <Modal
-        modalTitle={selectedTrashCan ? selectedTrashCan.address : ''}
-        isOpen={isOpen}
+       modalTitle='서울특별시 중구 동국대학교 서울캠퍼스 혜화관'
+       isOpen={isOpen}
         onClose={onClose}
         imageType={'MediumModal'}
       >
         <S.Wrapper>
           <S.ImgBox>
-          <S.Img src={selectedTrashCan ? selectedTrashCan.picture : ''} />
+          <S.Img src={trashCanImage} />
           </S.ImgBox>
         </S.Wrapper>
         <S.ModalOkButtonWrapper>

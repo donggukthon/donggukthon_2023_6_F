@@ -40,6 +40,10 @@ export default function TrashList() {
     );
   };
 
+  const trashImage = localStorage.getItem("trashImage")
+  const trashContent = localStorage.getItem("trashContent")
+
+
   return (
     <PageLayoutGreen title={"신고게시판"}>
       <S.Info>{'깨끗한 환경을 향해 한 걸음'}</S.Info>
@@ -47,9 +51,9 @@ export default function TrashList() {
         {complaintList.map((complaint, index) => (
           <S.ListItem key={index}>
             <Node 
-              address={complaint.address}
-              picture={complaint.picture}
-              information={complaint.information}
+                          address={"서울특별시 중구 동국대학교 혜화관"}
+                          picture={trashImage}
+              information={trashContent}
             />
           </S.ListItem>
         ))}

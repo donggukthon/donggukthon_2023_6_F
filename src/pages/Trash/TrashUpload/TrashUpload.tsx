@@ -25,6 +25,8 @@ export default function TrashUpload() {
         if (imageFile) {
             const newImageUrl = URL.createObjectURL(imageFile);
             setImageUrl(newImageUrl);
+            localStorage.setItem("trashImage", newImageUrl);
+
             setIsLoading(true); // 이미지 분석 시작 시 로딩 상태 설정
             return () => URL.revokeObjectURL(newImageUrl);
         }
@@ -51,7 +53,7 @@ export default function TrashUpload() {
         alert('쓰레기가 잘 보이지 않아요. 더 가까이에서 촬영해주세요.')
         navigate('/trash');
       }
-      alert(`${labels}`) //TODO: 테스트용.
+      //alert(`${labels}`) //TODO: 테스트용.
       setTimeout(() => setIsLoading(false), 500); // 로딩 상태 해제 (0.5초 지연)
   };
 
