@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import HamburgerButtonImg from '@/assets/Button/HamburgerButton.png';
-
+import BackgroundImg from '@/assets/Background/Background.png'
 export const Layout = styled.div`
   width: 100vw;
   height: 100vh;
@@ -21,8 +21,8 @@ export const Wrapper = styled.div`
   align-items: center;
   font-family: 'NEXONLv1Gothic';
   position: relative;
-  background-color: #E4F0D5;
   background-size: contain;
+  background: url(${BackgroundImg});
 `;
 
 export const HamburgerButton = styled.button`
