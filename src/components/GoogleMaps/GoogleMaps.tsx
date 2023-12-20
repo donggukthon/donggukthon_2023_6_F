@@ -271,7 +271,7 @@ function GoogleMaps() {
       </GoogleMap>
 
       {isTrashCanModalOpen && (
-        <TrashCanMoƒlodal 
+        <TrashCanModal 
           isOpen={isTrashCanModalOpen}
           onClose={closeTrashCanModal}
           trashCanId={selectedTrashCanId} // TrashCanModal에 선택된 쓰레기통 ID 전달
