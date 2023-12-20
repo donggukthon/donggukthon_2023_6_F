@@ -36,7 +36,7 @@ export default function TrashCanModal({onClose, isOpen, trashCanId}: TrashCanMod
   // });
 
   const handleNoTrashCan = () => {
-    mutate(); // mutate 함수를 호출하여 신고 처리
+   // mutate(); // mutate 함수를 호출하여 신고 처리
   }
 
   const handleCloseSuccessModal = () => {
