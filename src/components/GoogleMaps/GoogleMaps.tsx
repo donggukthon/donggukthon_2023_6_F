@@ -1,13 +1,19 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { GoogleMap } from '@react-google-maps/api';
 import MyMarkerImg from '@/assets/Marker/MyMarker.png';
+import TrashCanMarkerImg from '@/assets/Marker/TrashCanMarker.png';
+import TrashMarkerImg from '@/assets/Marker/TrashMarker.png';
+
 import * as S from './style';
 import useModal from '@/hooks/useModal';
 import TrashCanModal from '@/components/Modal/TrashCanModal/TrashCanModal';
 import { userLocationInfoState } from '@/atoms/user';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { trashCansState } from '@/atoms/trashCan';
+import { trashesState } from '@/atoms/trash';
+
 import Loading from '../Loading/Loading';
+import TrashModal from '../Modal/TrashModal/TrashModal';
 
 const containerStyle = {
   width: '430px',
@@ -19,8 +25,20 @@ const OPTIONS = {
   maxZoom: 18,
 };
 
-const markerIcon = {
+const myMarkerIcon = {
   url: MyMarkerImg,
+  scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
+  anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
+};
+
+const trashCanMarkerIcon = {
+  url: TrashCanMarkerImg,
+  scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
+  anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
+};
+
+const trashMarkerIcon = {
+  url: TrashMarkerImg,
   scaledSize: new window.google.maps.Size(50, 50), // 이미지 크기 조절
   anchor: new window.google.maps.Point(25, 25), // 마커 이미지의 중심점을 설정
 };
@@ -30,11 +48,15 @@ function GoogleMaps() {
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
   const [, setSearchQuery] = useState('');
   const inputRef = useRef(null);
-  const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
+  const { isOpen : isTrashCanModalOpen, openModal : openTrashCanModal, closeModal : closeTrashCanModal } = useModal(); // useModal 훅 사용
+  const { isOpen : isTrashModalOpen, openModal : openTrashModal , closeModal : closeTrashModal } = useModal(); // useModal 훅 사용
+
   const [, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
   const trashCans = useRecoilValue(trashCansState);
+  const trashes = useRecoilValue(trashesState);
   const geocoder = useRef(new window.google.maps.Geocoder()).current; // Geocoder 객체 생성
   const [selectedTrashCanId, setSelectedTrashCanId] = useState(null);
+  const [selectedTrashId, setSelectedTrashId] = useState(null);
 
   // 주소 가져오는 함수
   const getAddress = useCallback((location) => {
@@ -46,7 +68,6 @@ function GoogleMaps() {
           latitude: location.lat,
           longitude: location.lng
         });
-        openModal(); // 모달 열기
       } else {
         console.log('No results found');
       }
@@ -54,7 +75,7 @@ function GoogleMaps() {
       console.log('Geocoder failed due to: ' + status);
     }
   });
-}, [setUserLocationInfo, openModal]); // 의존성 배열에 setUserLocationInfo와 openModal 추가
+}, [setUserLocationInfo]); // 의존성 배열에 setUserLocationInfo와 openModal 추가
 
   useEffect(() => {
     if (!map) return;
@@ -109,7 +130,7 @@ function GoogleMaps() {
       const marker = new window.google.maps.Marker({
         position: center,
         map: map,
-        icon: markerIcon
+        icon: myMarkerIcon
       });
       getAddress(location); // 사용자 주소 가져오기
       return () => {
@@ -129,32 +150,54 @@ function GoogleMaps() {
       // 하드코딩된 마커 클릭 이벤트 리스너 추가
       hardcodedMarker.addListener('click', () => {
         getAddress({ lat: 37.5599867, lng: 126.993575 });
-        openModal();
+        openTrashModal();
       });
   
       // 서버에서 받아온 데이터를 이용하여 마커 생성
       const trashCanMarkers = trashCans.data.trashCans.map(trashCan => {
-        const marker = new window.google.maps.Marker({
+        const trashCanMarker = new window.google.maps.Marker({
           position: { lat: trashCan.latitude, lng: trashCan.longitude },
           map: map,
+          icon: trashCanMarkerIcon,
         });
   
         // 서버 데이터 마커 클릭 이벤트 리스너 추가
-        marker.addListener('click', () => {
+        trashCanMarker.addListener('click', () => {
           getAddress({ lat: trashCan.latitude, lng: trashCan.longitude });
           setSelectedTrashCanId(trashCan.trashCanId); // 선택된 쓰레기통 ID 업데이트
-          openModal(); // openModal에 trashCanId 전달
+          openTrashCanModal(); // openModal에 trashCanId 전달
         });
+
+
   
-        return marker;
+        return trashCanMarker;
       });
-  
+
+      // 서버에서 받아온 데이터를 이용하여 마커 생성
+      const trashMarkers = trashes.data.complaintList.map(trash => {
+        const trashMarker = new window.google.maps.Marker({
+          position: { lat: trash.latitude, lng: trash.longitude },
+          map: map,
+          icon: trashMarkerIcon,
+        });
+                
+        // 서버 데이터 마커 클릭 이벤트 리스너 추가
+        trashMarker.addListener('click', () => {
+          getAddress({ lat: trash.latitude, lng: trash.longitude });
+          setSelectedTrashId(trash.trashId); // 선택된 쓰레기 ID 업데이트
+          openTrashModal(); // openModal에 trashId 전달
+        });
+
+        return trashMarker;
+      });
+
       return () => {
         hardcodedMarker.setMap(null); // 하드코딩된 마커 제거
         trashCanMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
+        trashMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
       };
     }
-  }, [map, trashCans, openModal, getAddress]);
+  }, [map, trashCans, trashes, openTrashCanModal, openTrashModal, getAddress]);
   
   const onLoad = React.useCallback((map: google.maps.Map) => {
     if (center) {
@@ -191,12 +234,19 @@ function GoogleMaps() {
       >
       </GoogleMap>
 
-      {isOpen && (
+      {isTrashCanModalOpen && (
         <TrashCanModal 
-          modalTitle={'서울특별시 중구 필동로 1길 30'} //TODO: 서버로 받은 데이터 넣어야함
-          isOpen={isOpen}
-          onClose={closeModal}
+          isOpen={isTrashCanModalOpen}
+          onClose={closeTrashCanModal}
           trashCanId={selectedTrashCanId} // TrashCanModal에 선택된 쓰레기통 ID 전달
+        />
+      )}
+
+      {isTrashModalOpen && (
+        <TrashModal 
+          isOpen={isTrashModalOpen}
+          onClose={closeTrashModal}
+          trashId={selectedTrashId} // TrashModal에 선택된 쓰레기통 ID 전달
         />
       )}
     </>

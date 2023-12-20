@@ -5,12 +5,22 @@ import useModal from '@/hooks/useModal';
 import SmallModal from '../SmallModal/SmallModal';
 import {useMutation} from '@tanstack/react-query';
 import { declarationsNoTrashCan } from '@/apis/trashCan';
+import { trashCansState } from '@/atoms/trashCan';
+import { useRecoilValue } from 'recoil';
 
-export default function TrashCanModal({onClose, isOpen, modalTitle, trashCanId}) {
+type TrashCanModalProps = {
+  onClose: () => void;
+  isOpen: boolean;
+  trashCanId: number; // 여기에서 trashId의 타입을 number로 명시
+};
+
+export default function TrashCanModal({onClose, isOpen, trashCanId}: TrashCanModalProps) {
   const { isOpen : openSucessModal, openModal, closeModal } = useModal(); // useModal 훅 사용
+  const trashCans = useRecoilValue(trashCansState).data.trashCans;
+  const selectedTrashCan = trashCans.find(trashCan => trashCan.trashCanId === trashCanId);
 
   const { mutate } = useMutation({
-    mutationFn: () => declarationsNoTrashCan({ trashCanId }),
+    mutationFn: () => declarationsNoTrashCan(trashCanId),
     onSuccess: (data) => {
       if (data.status === 200) {
         openModal(); // 성공적으로 신고 처리됨
@@ -37,14 +47,14 @@ export default function TrashCanModal({onClose, isOpen, modalTitle, trashCanId})
   return (
     <>
       <Modal
-        modalTitle={modalTitle}
+        modalTitle={selectedTrashCan ? selectedTrashCan.address : ''}
         isOpen={isOpen}
         onClose={onClose}
         imageType={'MediumModal'}
       >
         <S.Wrapper>
           <S.ImgBox>
-            <S.Img src={""} />
+          <S.Img src={selectedTrashCan ? selectedTrashCan.picture : ''} />
           </S.ImgBox>
         </S.Wrapper>
         <S.ModalOkButtonWrapper>

@@ -37,8 +37,11 @@ export default function TrashUpload() {
 
     const handleDetectionResult = (labels) => {
       setDetectionResult(labels);
-      const trashRelatedKeywords = ['trash', 'garbage', 'waste', 'litter', 'rubbish', 'debris', 'refuse', 'pollution', 'dust'];
-      const isTrash = labels.some(label => 
+      const trashRelatedKeywords = [
+        'trash', 'garbage', 'waste', 'litter', 'rubbish', 'debris', 'refuse', 'pollution', 'dust',
+        'plastic', 'transparency', 'plastic bag', 'waste container', 'bin bag', 'pollution'
+      ];
+            const isTrash = labels.some(label => 
           trashRelatedKeywords.includes(label.toLowerCase())
       );
       setIsTrashDetected(isTrash);
