@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 //쓰레기통 신고하기
 export async function declarationsNoTrashCan(trashCanId: number) {
     try {
-        const response = await instance.post('/api/v1/declarations', {
+        const response = await instance.post('/declaration/', { //'/api/v1/declarations'
             trashCanId: trashCanId
         });
         return {
@@ -29,7 +29,8 @@ export async function declarationsNoTrashCan(trashCanId: number) {
 export const getTrashCansList = async (page: number, size: number) => {
     try {
         const response = await instance.get(
-            `/api/v1/users/trashCans?page=${page}&size=${size}`,
+            //`/api/v1/users/trashCans?page=${page}&size=${size}`,
+            '/trashcan/list/'
         );
         return response.data.data.reportList;
     } catch (error) {
@@ -59,7 +60,7 @@ export async function TrashCanReport(data: {
         formData.append('picture', data.picture);
         formData.append('information', data.information);
 
-        await instance.post('/api/v1/trashCans', formData, {
+        await instance.post('/trashcan/create/', formData, { //'/api/v1/trashCans'
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -80,7 +81,8 @@ export async function TrashCanReport(data: {
 export const getTrashCansLocation = async (latitude: number, longitude: number) => {
     try {
         const response = await instance.get(
-            `/api/v1/thashCans?latitude=${latitude}&longitude=${longitude}`,
+            //`/api/v1/thashCans?latitude=${latitude}&longitude=${longitude}`,
+            '/trashcan/trash-cans/'
         );
         return response.data;
     } catch (error) {
