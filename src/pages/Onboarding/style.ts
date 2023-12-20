@@ -7,6 +7,7 @@ export const Main = styled.div`
     width: 430px;
     height: 91px;
     flex-shrink: 0;
+    font-family: 'NEXONLv1Gothic';
 `;
 
 export const subTitle = styled.div`
@@ -55,6 +56,7 @@ export const Button = styled.div`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    font-family: 'NEXONLv1Gothic';
 `;
 
 export const ButtonImage = styled.span`

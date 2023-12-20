@@ -29,6 +29,7 @@ export const ModalWrapper = styled.div<ModalWrapperProps>`
       : 'none'};
   z-index: 999;
   background-color: rgba(228, 240, 213, 0.5);
+  font-family: 'NEXONLv1Gothic';
 `;
 
 const getModalBackgroundImage = (
