@@ -7,8 +7,8 @@ import useModal from '@/hooks/useModal';
 import SmallModal from '../SmallModal/SmallModal';
 import { useMutation } from '@tanstack/react-query';
 import { cleanTrash } from '@/apis/trash';
-import { useRecoilState } from 'recoil';
-import { imageFileState, imageUrlState } from '@/atoms/trash';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { imageFileState, imageUrlState, trashesState } from '@/atoms/trash';
 import ImageAnalyzer from '@/components/GoogleVision/ImageAnalyzer';
 
 type TrashModalProps = {
@@ -23,7 +23,8 @@ export default function TrashModal({ onClose, isOpen, trashId }: TrashModalProps
   const inputRef = useRef(null);
   const [, setIsTrashDetected] = useState(true); // 기본적으로 쓰레기가 있다고 가정
   const { isOpen: openSuccessModal, openModal, closeModal } = useModal();
-
+  const trashes = useRecoilValue(trashesState).data.complaintList;
+  const selectedTrash = trashes.find(trashes => trashes.trashId === trashId);
   // 이미지 분석 결과 처리
   const handleDetectionResult = (labels) => {
     const trashRelatedKeywords = ['trash', 'garbage', 'waste', 'litter', 'rubbish', 'debris', 'refuse', 'pollution', 'dust'];
@@ -61,14 +62,14 @@ export default function TrashModal({ onClose, isOpen, trashId }: TrashModalProps
   return (
     <>
       <Modal
-        modalTitle={''}
+        modalTitle={selectedTrash ? selectedTrash.address : ''}
         isOpen={isOpen}
         onClose={onClose}
         imageType={'MediumModal'}
       >
         <S.Wrapper>
           <S.ImgBox>
-            <S.Img src={imageUrl} />
+          <S.Img src={selectedTrash ? selectedTrash.picture : ''} />
             <input
               ref={inputRef}
               type="file"

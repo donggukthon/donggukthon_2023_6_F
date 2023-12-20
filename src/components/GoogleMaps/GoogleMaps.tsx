@@ -48,7 +48,7 @@ function GoogleMaps() {
   const [center, setCenter] = useState<google.maps.LatLngLiteral | null>(null);
   const [, setSearchQuery] = useState('');
   const inputRef = useRef(null);
-  const { isOpen, openModal, closeModal } = useModal(); // useModal 훅 사용
+  const { isOpen : isTrashCanModalOpen, openModal : openTrashCanModal, closeModal : closeTrashCanModal } = useModal(); // useModal 훅 사용
   const { isOpen : isTrashModalOpen, openModal : openTrashModal , closeModal : closeTrashModal } = useModal(); // useModal 훅 사용
 
   const [, setUserLocationInfo] = useRecoilState(userLocationInfoState); // Recoil 상태 사용
@@ -68,7 +68,6 @@ function GoogleMaps() {
           latitude: location.lat,
           longitude: location.lng
         });
-        openModal(); // 모달 열기
       } else {
         console.log('No results found');
       }
@@ -76,7 +75,7 @@ function GoogleMaps() {
       console.log('Geocoder failed due to: ' + status);
     }
   });
-}, [setUserLocationInfo, openModal]); // 의존성 배열에 setUserLocationInfo와 openModal 추가
+}, [setUserLocationInfo]); // 의존성 배열에 setUserLocationInfo와 openModal 추가
 
   useEffect(() => {
     if (!map) return;
@@ -151,7 +150,7 @@ function GoogleMaps() {
       // 하드코딩된 마커 클릭 이벤트 리스너 추가
       hardcodedMarker.addListener('click', () => {
         getAddress({ lat: 37.5599867, lng: 126.993575 });
-        openModal();
+        openTrashModal();
       });
   
       // 서버에서 받아온 데이터를 이용하여 마커 생성
@@ -166,7 +165,7 @@ function GoogleMaps() {
         trashCanMarker.addListener('click', () => {
           getAddress({ lat: trashCan.latitude, lng: trashCan.longitude });
           setSelectedTrashCanId(trashCan.trashCanId); // 선택된 쓰레기통 ID 업데이트
-          openModal(); // openModal에 trashCanId 전달
+          openTrashCanModal(); // openModal에 trashCanId 전달
         });
 
 
@@ -198,7 +197,7 @@ function GoogleMaps() {
         trashMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
       };
     }
-  }, [map, trashCans, trashes, openModal, getAddress]);
+  }, [map, trashCans, trashes, openTrashCanModal, openTrashModal, getAddress]);
   
   const onLoad = React.useCallback((map: google.maps.Map) => {
     if (center) {
@@ -235,10 +234,10 @@ function GoogleMaps() {
       >
       </GoogleMap>
 
-      {isOpen && (
+      {isTrashCanModalOpen && (
         <TrashCanModal 
-          isOpen={isOpen}
-          onClose={closeModal}
+          isOpen={isTrashCanModalOpen}
+          onClose={closeTrashCanModal}
           trashCanId={selectedTrashCanId} // TrashCanModal에 선택된 쓰레기통 ID 전달
         />
       )}
