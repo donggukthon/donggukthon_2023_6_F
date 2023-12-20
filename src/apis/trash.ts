@@ -5,7 +5,8 @@ import { AxiosError } from 'axios';
 export const getTrashList = async (page: number, size: number, latitude: number, logitude: number) => {
     try {
         const response = await instance.get(
-            `/api/v1/users/trashs?page=${page}&size=${size}&latitude=${latitude}&logitude=${logitude}`,
+            //`/api/v1/users/trashs?page=${page}&size=${size}&latitude=${latitude}&logitude=${logitude}`,
+            `/trash/trashs/`,
         );
         return response.data;
     } catch (error) {
@@ -23,8 +24,9 @@ export const getTrashList = async (page: number, size: number, latitude: number,
 export const getTrashListForMarker = async (latitude: number, logitude: number) => {
     try {
         const response = await instance.get(
-            `/api/v1/users/trashs?latitude=${latitude}&logitude=${logitude}`,
-        );
+            //`/api/v1/users/trashs?latitude=${latitude}&logitude=${logitude}`,
+        "/trash/list/",
+            );
         return response.data;
     } catch (error) {
         if (error instanceof AxiosError) {
@@ -53,7 +55,7 @@ export async function TrashComplaint(data: {
         formData.append('picture', data.picture);
         formData.append('information', data.information);
 
-        await instance.post('/api/v1/trashs', formData, {
+        await instance.post('/trash/create/', formData, { //api/v1/trashs
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -72,7 +74,7 @@ export async function TrashComplaint(data: {
 //쓰레기 상태변경
 export async function cleanTrash(trashId: number) {
     try {
-        await instance.delete(`/api/v1/trashs/${trashId}`, {});
+        await instance.delete(`trash/delete/${trashId}/`, {}); ///api/v1/trashs/${trashId}
     } catch (error) {
         if (error instanceof AxiosError) {
             // 오류를 다시 던져 useMutation의 onError 콜백이 호출되도록 함

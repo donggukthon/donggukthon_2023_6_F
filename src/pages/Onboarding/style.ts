@@ -5,7 +5,7 @@ import GoogleImg from '@/assets/Button/Google.png'
 export const Main = styled.div`
     margin-top: 160px;
     width: 430px;
-    height: 91px;
+    height: 93px;
     flex-shrink: 0;
     font-family: 'NEXONLv1Gothic';
 `;
@@ -75,6 +75,6 @@ export const ButtonText = styled.span`
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 20px; /* 100% */
+    //line-height: 20px; /* 100% */
     letter-spacing: -0.24px;
 `;
