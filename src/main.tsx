@@ -27,9 +27,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
         <QueryClientProviderMonitor>
           <RecoilRoot>
-            <GlobalStyle>
+            <GlobalStyle />
               <App />
-            </GlobalStyle>
           </RecoilRoot>
         </QueryClientProviderMonitor>
       </QueryClientProvider>
