@@ -45,7 +45,7 @@ export const Image = styled.div`
 `;
 
 export const Button = styled.div`
-    margin-top: 50px;
+    margin-top: 370px;
     width: 300px;
     height: 60px;
     flex-shrink: 0;
