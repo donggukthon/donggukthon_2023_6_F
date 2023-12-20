@@ -48,7 +48,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
     },
     onError: (error) => {
       console.log('Error occurred:', error);
-
+      alert("쓰레기통을 등록하는 데에 실패했어요.")
     },
   });
 
@@ -69,7 +69,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
     },
     onError: (error) => {
       console.log('Error occurred:', error);
-
+      alert("쓰레기를 등록하는 데에 실패했어요.")
     },
   });
 

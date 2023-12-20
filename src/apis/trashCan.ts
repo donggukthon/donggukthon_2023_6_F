@@ -21,6 +21,7 @@ export async function declarationsNoTrashCan(trashCanId: number) {
             // 기타 오류 처리
             return { status: 500, message: 'Unknown error occurred' };
         }
+        
     }
 }
 
@@ -33,8 +34,12 @@ export const getTrashCansList = async (page: number, size: number) => {
         return response.data.data.reportList;
     } catch (error) {
         if (error instanceof AxiosError) {
-            //
-        } 
+            // 오류를 다시 던져 useMutation의 onError 콜백이 호출되도록 함
+            throw error;
+        } else {
+            // 기타 오류를 다시 던짐
+            throw new Error('An error occurred while reporting trash can');
+        }
     }
 };
 
@@ -62,9 +67,12 @@ export async function TrashCanReport(data: {
 
     } catch (error) {
         if (error instanceof AxiosError) {
-            //
-            alert("쓰레기통 등록 실패")
-        } 
+            // 오류를 다시 던져 useMutation의 onError 콜백이 호출되도록 함
+            throw error;
+        } else {
+            // 기타 오류를 다시 던짐
+            throw new Error('An error occurred while reporting trash can');
+        }
     }
 }
 
@@ -77,7 +85,11 @@ export const getTrashCansLocation = async (latitude: number, longitude: number) 
         return response.data;
     } catch (error) {
         if (error instanceof AxiosError) {
-            //
+            // 오류를 다시 던져 useMutation의 onError 콜백이 호출되도록 함
+            throw error;
+        } else {
+            // 기타 오류를 다시 던짐
+            throw new Error('An error occurred while reporting trash can');
         } 
     }
 };
