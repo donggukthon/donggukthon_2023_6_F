@@ -8,7 +8,10 @@ import TrashUpload from './pages/Trash/TrashUpload/TrashUpload';
 import Onboarding from './pages/Onboarding/Onboarding';
 import TrashList from './pages/TrashList/TrashList';
 import ReportList from './pages/ReportList/ReportList';
+import RouteChangeTracker from './RouteChangeTracker';
+
 export default function Router() {
+  RouteChangeTracker();
 
   return (
     <>
