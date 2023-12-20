@@ -14,7 +14,7 @@ const validPredictions = [
   'ashcan', 'trash can', 'garbage can', 'wastebin', 'ash bin',
   'ash-bin', 'ashbin', 'dustbin', 'trash barrel', 'trash bin',
   'trash-can', 'garbage-can', 'waste container', 'waste-container',
-  'waste-can',
+  'waste-can', "waste containment",  "waste-containment"
 ];
 
 export default function ReportUpload() {

@@ -27,8 +27,11 @@ export default function TrashModal({ onClose, isOpen, trashId }: TrashModalProps
   const selectedTrash = trashes.find(trashes => trashes.trashId === trashId);
   // 이미지 분석 결과 처리
   const handleDetectionResult = (labels) => {
-    const trashRelatedKeywords = ['trash', 'garbage', 'waste', 'litter', 'rubbish', 'debris', 'refuse', 'pollution', 'dust'];
-    const isTrash = labels.some(label => trashRelatedKeywords.includes(label.toLowerCase()));
+    const trashRelatedKeywords = [
+      'trash', 'garbage', 'waste', 'litter', 'rubbish', 'debris', 'refuse', 'pollution', 'dust',
+      'plastic', 'transparency', 'plastic bag', 'waste container', 'bin bag', 'pollution'
+    ];
+        const isTrash = labels.some(label => trashRelatedKeywords.includes(label.toLowerCase()));
     setIsTrashDetected(isTrash);
 
     if (!isTrash) {
