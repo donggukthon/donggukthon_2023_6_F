@@ -48,6 +48,11 @@ export default function TrashModal({ onClose, isOpen, trashId }: TrashModalProps
       setImageFile(file); // Recoil atom을 업데이트
       const newImageUrl = URL.createObjectURL(file);
       setImageUrl(newImageUrl);
+      localStorage.removeItem("trashImage");
+      localStorage.removeItem("trashContent");
+      localStorage.removeItem("trashLatitude");
+      localStorage.removeItem("trashLongitude");
+
     }
   };
 
@@ -62,17 +67,21 @@ export default function TrashModal({ onClose, isOpen, trashId }: TrashModalProps
     },
   });
 
+  const trashImage = (localStorage.getItem("trashImage"));
+
+
   return (
     <>
       <Modal
-        modalTitle={selectedTrash ? selectedTrash.address : ''}
+       // modalTitle={selectedTrash ? selectedTrash.address : ''}
+       modalTitle='서울특별시 중구 동국대학교 서울캠퍼스 혜화관'
         isOpen={isOpen}
         onClose={onClose}
         imageType={'MediumModal'}
       >
         <S.Wrapper>
           <S.ImgBox>
-          <S.Img src={selectedTrash ? selectedTrash.picture : ''} />
+          <S.Img src={trashImage} /> {/*src={selectedTrash ? selectedTrash.picture : ''} */}
             <input
               ref={inputRef}
               type="file"

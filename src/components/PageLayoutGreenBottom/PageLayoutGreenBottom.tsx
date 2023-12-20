@@ -31,61 +31,78 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
   const isReportUploadPage = location.pathname ==='/report/upload'
   const isTrashUploadPage = location.pathname === '/trash/upload';
 
+
+  if(isReportUploadPage) {
+    localStorage.setItem("trashCanContent", content);
+  } else if (isTrashUploadPage) {
+    localStorage.setItem("trashContent", content);
+
+  }
   const latitude = Number(localStorage.getItem("latitude"));
   const longitude = Number(localStorage.getItem("longitude"));
-  alert(`${latitude},${longitude}`)
-  const mutateTrashCan = useMutation({
-    mutationFn: () => TrashCanReport({ 
-      picture: image, 
-      address: userLocationInfo.address,
-      latitude: latitude,
-      longitude: longitude,
-      information: content
-    }),
-    onSuccess: () => {
-      if(isTrashUploadPage) {
-        openModal(); // isTrashUploadPage가 true일 때 모달 열기
-      } else {
-        navigate('success');
-      }
-    },
-    onError: (error) => {
-      console.log('Error occurred:', error);
-      alert("쓰레기통을 등록하는 데에 실패했어요.")
-    },
-  });
+  
+  // const mutateTrashCan = useMutation({
+  //   mutationFn: () => TrashCanReport({ 
+  //     picture: image, 
+  //     address: userLocationInfo.address,
+  //     latitude: latitude,
+  //     longitude: longitude,
+  //     information: content
+  //   }),
+  //   onSuccess: () => {
+  //     if(isTrashUploadPage) {
+  //       openModal(); // isTrashUploadPage가 true일 때 모달 열기
+  //     } else {
+  //       navigate('success');
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.log('Error occurred:', error);
+  //     alert("쓰레기통을 등록하는 데에 실패했어요.")
+  //   },
+  // });
 
-  const mutateTrash = useMutation({
-    mutationFn: () => TrashComplaint({ 
-      picture: image, 
-      address: userLocationInfo.address,
-      latitude: latitude,
-      longitude: longitude,
-      information: content
-    }),
-    onSuccess: () => {
-      if(isTrashUploadPage) {
-        openModal(); // isTrashUploadPage가 true일 때 모달 열기
-      } else {
-        navigate('success');
-      }
-    },
-    onError: (error) => {
-      console.log('Error occurred:', error);
-      alert("쓰레기를 등록하는 데에 실패했어요.")
-    },
-  });
+  // const mutateTrash = useMutation({
+  //   mutationFn: () => TrashComplaint({ 
+  //     picture: image, 
+  //     address: userLocationInfo.address,
+  //     latitude: latitude,
+  //     longitude: longitude,
+  //     information: content
+  //   }),
+  //   onSuccess: () => {
+  //     if(isTrashUploadPage) {
+  //       openModal(); // isTrashUploadPage가 true일 때 모달 열기
+  //     } else {
+  //       navigate('success');
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.log('Error occurred:', error);
+  //     alert("쓰레기를 등록하는 데에 실패했어요.")
+  //   },
+  // });
 
 
   const handleNavigate = () => {
     if (isReportPage) {
       inputRef.current.click();
     } else if (isTrashUploadPage) {
-      mutateTrash.mutate(); // /trash/upload 페이지일 경우 mutate 함수 호출
+      //mutateTrash.mutate(); // /trash/upload 페이지일 경우 mutate 함수 호출
+      if(isTrashUploadPage) {
+               openModal(); // isTrashUploadPage가 true일 때 모달 열기
+             } else {
+               navigate('success');
+             }
     } else if (isTrashPage) {
       inputRef.current.click(); // /trash 페이지일 경우 inputRef 클릭 이벤트 발생
     } else if (isReportUploadPage) {
-      mutateTrashCan.mutate();
+      //mutateTrashCan.mutate();
+      if(isTrashUploadPage) {
+               openModal(); // isTrashUploadPage가 true일 때 모달 열기
+             } else {
+              navigate('success');
+             }
     } else {
       navigate(route);
     }

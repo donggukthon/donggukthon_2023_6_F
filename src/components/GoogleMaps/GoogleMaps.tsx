@@ -68,7 +68,8 @@ function GoogleMaps() {
           latitude: location.lat,
           longitude: location.lng
         });
-
+        localStorage.setItem("trashAddress", results[0].formatted_address);
+        localStorage.setItem("trashCanAddress", results[0].formatted_address);
 
       } else {
         console.log('No results found');
@@ -117,8 +118,11 @@ function GoogleMaps() {
             lng: position.coords.longitude
           };
 
-        localStorage.setItem("latitude", newPos.lat.toString());
-        localStorage.setItem("longitude", newPos.lng.toString());
+        localStorage.setItem("trashLatitude", newPos.lat.toString());
+        localStorage.setItem("trashLongitude", newPos.lng.toString());
+
+        localStorage.setItem("trashCanLatitude", newPos.lat.toString());
+        localStorage.setItem("trashCanLongitude", newPos.lng.toString());
           setCenter(newPos);
           // 여기에서 직접 마커 생성 로직 추가
         },
@@ -158,48 +162,75 @@ function GoogleMaps() {
         openTrashModal();
       });
   
-      // 서버에서 받아온 데이터를 이용하여 마커 생성
-      const trashCanMarkers = trashCans.data.trashCans.map(trashCan => {
-        const trashCanMarker = new window.google.maps.Marker({
-          position: { lat: trashCan.latitude, lng: trashCan.longitude },
-          map: map,
-          icon: trashCanMarkerIcon,
-        });
+      // // 서버에서 받아온 데이터를 이용하여 마커 생성
+      // const trashCanMarkers = trashCans.data.trashCans.map(trashCan => {
+      //   const trashCanMarker = new window.google.maps.Marker({
+      //     position: { lat: trashCan.latitude, lng: trashCan.longitude },
+      //     map: map,
+      //     icon: trashCanMarkerIcon,
+      //   });
   
-        // 서버 데이터 마커 클릭 이벤트 리스너 추가
-        trashCanMarker.addListener('click', () => {
-          getAddress({ lat: trashCan.latitude, lng: trashCan.longitude });
-          setSelectedTrashCanId(trashCan.trashCanId); // 선택된 쓰레기통 ID 업데이트
-          openTrashCanModal(); // openModal에 trashCanId 전달
-        });
+      //   // 서버 데이터 마커 클릭 이벤트 리스너 추가
+      //   trashCanMarker.addListener('click', () => {
+      //     getAddress({ lat: trashCan.latitude, lng: trashCan.longitude });
+      //     setSelectedTrashCanId(trashCan.trashCanId); // 선택된 쓰레기통 ID 업데이트
+      //     openTrashCanModal(); // openModal에 trashCanId 전달
+      //   });
+      const trashLatitude = Number(localStorage.getItem("trashLatitude"));
+      const trashLongitude = Number(localStorage.getItem("trashLongitude"));
+      const trashCanLatitude = Number(localStorage.getItem("trashCanLatitude"));
+      const trashCanLongitude = Number(localStorage.getItem("trashCanLongitude"));
+            // 서버에서 받아온 데이터를 이용하여 마커 생성
+              const trashCanMarker = new window.google.maps.Marker({
+                position: { lat: trashCanLatitude+0.0001, lng: trashCanLongitude+0.0001 },
+                map: map,
+                icon: trashCanMarkerIcon,
+              });
+        
+              // 서버 데이터 마커 클릭 이벤트 리스너 추가
+              trashCanMarker.addListener('click', () => {
+                getAddress({ lat: trashCanLatitude+0.0001, lng: trashCanLongitude+0.0001 });
+                openTrashCanModal(); // openModal에 trashCanId 전달
+              });
 
+   // 서버에서 받아온 데이터를 이용하여 마커 생성
+   const trashMarker = new window.google.maps.Marker({
+    position: { lat: trashLatitude-0.0001, lng: trashLongitude-0.0001 },
+    map: map,
+    icon: trashMarkerIcon,
+  });
 
-  
-        return trashCanMarker;
-      });
+  // 서버 데이터 마커 클릭 이벤트 리스너 추가
+  trashMarker.addListener('click', () => {
+    getAddress({ lat: trashLatitude-0.0001, lng: trashLongitude-0.0001 });
+    openTrashModal(); // openModal에 trashCanId 전달
+  });
+      
 
-      // 서버에서 받아온 데이터를 이용하여 마커 생성
-      const trashMarkers = trashes.data.complaintList.map(trash => {
-        const trashMarker = new window.google.maps.Marker({
-          position: { lat: trash.latitude, lng: trash.longitude },
-          map: map,
-          icon: trashMarkerIcon,
-        });
+      // // 서버에서 받아온 데이터를 이용하여 마커 생성
+      // const trashMarkers = trashes.data.complaintList.map(trash => {
+      //   const trashMarker = new window.google.maps.Marker({
+      //     position: { lat: trash.latitude, lng: trash.longitude },
+      //     map: map,
+      //     icon: trashMarkerIcon,
+      //   });
                 
-        // 서버 데이터 마커 클릭 이벤트 리스너 추가
-        trashMarker.addListener('click', () => {
-          getAddress({ lat: trash.latitude, lng: trash.longitude });
-          setSelectedTrashId(trash.trashId); // 선택된 쓰레기 ID 업데이트
-          openTrashModal(); // openModal에 trashId 전달
-        });
+      //   // 서버 데이터 마커 클릭 이벤트 리스너 추가
+      //   trashMarker.addListener('click', () => {
+      //     getAddress({ lat: trash.latitude, lng: trash.longitude });
+      //     setSelectedTrashId(trash.trashId); // 선택된 쓰레기 ID 업데이트
+      //     openTrashModal(); // openModal에 trashId 전달
+      //   });
 
-        return trashMarker;
-      });
+      //   return trashMarker;
+      // });
 
       return () => {
         hardcodedMarker.setMap(null); // 하드코딩된 마커 제거
-        trashCanMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
-        trashMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
+        //trashCanMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
+        //trashMarkers.forEach(marker => marker.setMap(null)); // 서버 마커 제거
+        trashCanMarker.setMap(null); // 하드코딩된 마커 제거
+        trashMarker.setMap(null); // 하드코딩된 마커 제거
       };
     }
   }, [map, trashCans, trashes, openTrashCanModal, openTrashModal, getAddress]);
@@ -240,7 +271,7 @@ function GoogleMaps() {
       </GoogleMap>
 
       {isTrashCanModalOpen && (
-        <TrashCanModal 
+        <TrashCanMoƒlodal 
           isOpen={isTrashCanModalOpen}
           onClose={closeTrashCanModal}
           trashCanId={selectedTrashCanId} // TrashCanModal에 선택된 쓰레기통 ID 전달

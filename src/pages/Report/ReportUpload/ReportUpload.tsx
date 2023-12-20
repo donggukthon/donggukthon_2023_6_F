@@ -30,6 +30,8 @@ export default function ReportUpload() {
     if (imageFile) {
       const newImageUrl = URL.createObjectURL(imageFile);
       setImageUrl(newImageUrl);
+      localStorage.setItem("trashCanImage", newImageUrl);
+
       setIsLoading(true); // 이미지 분석 시작 시 로딩 상태 설정
       return () => URL.revokeObjectURL(newImageUrl);
     }
@@ -43,7 +45,7 @@ export default function ReportUpload() {
       alert('쓰레기통을 다시 촬영해주세요!');
       navigate('/report');
     }
-    alert(`${labels}`)//TODO: 테스트용.
+    //(`${labels}`)//TODO: 테스트용.
     setTimeout(() => setIsLoading(false), 500); // 로딩 상태 해제 (0.5초 지연)
   };
 
