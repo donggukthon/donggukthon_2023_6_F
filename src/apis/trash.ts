@@ -10,8 +10,12 @@ export const getTrashList = async (page: number, size: number, latitude: number,
         return response.data;
     } catch (error) {
         if (error instanceof AxiosError) {
-            //
-        } 
+            // 오류를 다시 던져 useMutation의 onError 콜백이 호출되도록 함
+            throw error;
+        } else {
+            // 기타 오류를 다시 던짐
+            throw new Error('An error occurred while reporting trash can');
+        }
     }
 };
 
@@ -24,8 +28,12 @@ export const getTrashListForMarker = async (latitude: number, logitude: number) 
         return response.data;
     } catch (error) {
         if (error instanceof AxiosError) {
-            //
-        } 
+            // 오류를 다시 던져 useMutation의 onError 콜백이 호출되도록 함
+            throw error;
+        } else {
+            // 기타 오류를 다시 던짐
+            throw new Error('An error occurred while reporting trash can');
+        }
     }
 };
 
@@ -50,11 +58,14 @@ export async function TrashComplaint(data: {
                 'Content-Type': 'multipart/form-data'
             }
         });
-
     } catch (error) {
         if (error instanceof AxiosError) {
-            alert("쓰레기 등록 실패")
-        } 
+            // 오류를 다시 던져 useMutation의 onError 콜백이 호출되도록 함
+            throw error;
+        } else {
+            // 기타 오류를 다시 던짐
+            throw new Error('An error occurred while reporting trash can');
+        }
     }
 }
 
@@ -64,7 +75,11 @@ export async function cleanTrash(trashId: number) {
         await instance.delete(`/api/v1/trashs/${trashId}`, {});
     } catch (error) {
         if (error instanceof AxiosError) {
-            //
+            // 오류를 다시 던져 useMutation의 onError 콜백이 호출되도록 함
+            throw error;
+        } else {
+            // 기타 오류를 다시 던짐
+            throw new Error('An error occurred while reporting trash can');
         }
     }
 }
