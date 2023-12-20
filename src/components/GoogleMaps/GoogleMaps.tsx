@@ -68,8 +68,7 @@ function GoogleMaps() {
           latitude: location.lat,
           longitude: location.lng
         });
-        localStorage.setItem("latitude", location.lat);
-        localStorage.setItem("longitude", location.lng);
+
 
       } else {
         console.log('No results found');
@@ -117,6 +116,9 @@ function GoogleMaps() {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
+
+        localStorage.setItem("latitude", newPos.lat.toString());
+        localStorage.setItem("longitude", newPos.lng.toString());
           setCenter(newPos);
           // 여기에서 직접 마커 생성 로직 추가
         },

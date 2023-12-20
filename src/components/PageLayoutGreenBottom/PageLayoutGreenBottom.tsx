@@ -33,7 +33,7 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
 
   const latitude = Number(localStorage.getItem("latitude"));
   const longitude = Number(localStorage.getItem("longitude"));
-  
+  alert(`${latitude},${longitude}`)
   const mutateTrashCan = useMutation({
     mutationFn: () => TrashCanReport({ 
       picture: image, 
