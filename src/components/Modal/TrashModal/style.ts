@@ -26,6 +26,7 @@ export const Wrapper = styled.div`
   justify-content: center;
   margin-top: 74px;
   margin-bottom: 40px;
+  font-family: 'NEXONLv1Gothic';
 `;
 
 export const ImgBox = styled.div`
