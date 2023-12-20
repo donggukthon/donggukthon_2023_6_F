@@ -31,12 +31,15 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
   const isReportUploadPage = location.pathname ==='/report/upload'
   const isTrashUploadPage = location.pathname === '/trash/upload';
 
+  const latitude = Number(localStorage.getItem("latitude"));
+  const longitude = Number(localStorage.getItem("longitude"));
+  
   const mutateTrashCan = useMutation({
     mutationFn: () => TrashCanReport({ 
       picture: image, 
       address: userLocationInfo.address,
-      latitude: userLocationInfo.latitude,
-      longitude: userLocationInfo.longitude,
+      latitude: latitude,
+      longitude: longitude,
       information: content
     }),
     onSuccess: () => {
@@ -56,8 +59,8 @@ export default function PageLayoutGreenBottom({ buttonImgSrc, route }: Props) {
     mutationFn: () => TrashComplaint({ 
       picture: image, 
       address: userLocationInfo.address,
-      latitude: userLocationInfo.latitude,
-      longitude: userLocationInfo.longitude,
+      latitude: latitude,
+      longitude: longitude,
       information: content
     }),
     onSuccess: () => {

@@ -68,6 +68,9 @@ function GoogleMaps() {
           latitude: location.lat,
           longitude: location.lng
         });
+        localStorage.setItem("latitude", location.lat);
+        localStorage.setItem("longitude", location.lng);
+
       } else {
         console.log('No results found');
       }
